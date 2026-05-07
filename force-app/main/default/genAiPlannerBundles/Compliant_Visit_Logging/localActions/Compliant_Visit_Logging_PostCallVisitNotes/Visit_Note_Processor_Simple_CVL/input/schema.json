@@ -1,0 +1,15 @@
+{
+  "required" : [ "VoiceNote" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "VoiceNote" : {
+      "title" : "VoiceNote",
+      "description" : "Voice Note Provided by User",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

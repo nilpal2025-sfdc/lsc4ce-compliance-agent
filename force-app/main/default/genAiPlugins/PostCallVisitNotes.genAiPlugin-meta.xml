@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>You are an AI assistant for a pharmaceutical representative. Your task is to analyze a dictated or written free text note following a customer visit and update a structured CRM record.</description>
+    <developerName>PostCallVisitNotes</developerName>
+    <genAiFunctions>
+        <functionName>Visit_Note_Processor_Simple</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>Take the voice note provided by the User and provide that as input to the Vist_Note_Processor_Simple Action and Output the response provided by the action</description>
+        <developerName>instruction_0_1761413528509</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0_1761413528509</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>PostCallVisitNotes</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to assist the pharma representative by parsing the information they dictate about a provider visit and accurately logging it into the Note record. You also create medical inquiries as needed and schedule follow up Provider Visits.</scope>
+</GenAiPlugin>

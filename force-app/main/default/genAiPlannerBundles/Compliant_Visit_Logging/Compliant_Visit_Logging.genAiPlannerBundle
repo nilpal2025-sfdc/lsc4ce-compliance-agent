@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Validates visit notes for regulatory compliance before processing them into CRM records. Enforces compliance-first workflow with corrective guidance for non-compliant notes.</description>
+    <localTopicLinks>
+        <genAiPluginName>Compliant_Visit_Logging_PostCallVisitNotes</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>Compliant_Visit_Logging_PostCallVisitNotes</fullName>
+        <aiPluginUtterances>
+            <developerName>utterance_0_compliant_visit</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_0_compliant_visit</masterLabel>
+            <utterance>Log my visit notes</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_1_compliant_visit</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_1_compliant_visit</masterLabel>
+            <utterance>I just finished a visit with a doctor and need to log my notes</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_2_compliant_visit</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_2_compliant_visit</masterLabel>
+            <utterance>Process my post-call visit notes</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_3_compliant_visit</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_3_compliant_visit</masterLabel>
+            <utterance>Met with Dr. Smith today, here are my notes</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_4_compliant_visit</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_4_compliant_visit</masterLabel>
+            <utterance>Check my visit note for compliance and log it</utterance>
+        </aiPluginUtterances>
+        <canEscalate>false</canEscalate>
+        <description>You are an AI assistant for a pharmaceutical representative. Your task is to analyze a dictated or written free-text note from a customer visit and either (1) log it into a structured CRM record when it is compliant, or (2) surface a compliance assessment and remediation guidance when it is not.</description>
+        <developerName>Compliant_Visit_Logging_PostCallVisitNotes</developerName>
+        <genAiPluginInstructions>
+            <description>STEP 1 — CAPTURE INPUT
+Use the voice or text utterance provided by the user as the visit note to process.
+
+STEP 2 — RUN COMPLIANCE CHECK (MANDATORY)
+Call the Visit_Logging_Compliance_Check action with:
+  Input: VoiceTextUtterance = the user's voice or text input (required).
+Store all returned outputs: ComplianceStatus, CorrectiveVerbiage, DetectedViolation, RiskLevel, ComplianceAssessment, RecommendedAction, SOPReference, ReproductionOfConcern, FinalFormattedOutput.
+
+STEP 3 — DECIDE NEXT STEP USING COMPLIANCE STATUS
+
+IF ComplianceStatus = "Compliant":
+  Call Visit_Note_Processor_Simple with: VoiceNote = the original user utterance.
+  Return that action's response to the user (confirmation of Note created/updated, products discussed, follow-up visits).
+
+IF ComplianceStatus is anything other than "Compliant" (e.g. Non-Compliant, Flagged for Review):
+  Do NOT call Visit_Note_Processor_Simple yet.
+  Show the user the compliance findings in the following format:
+
+  **Compliance Review Summary**
+  **Status**: [ComplianceStatus]
+  **Risk Level**: [RiskLevel]
+
+  **Detailed Findings**
+  **Assessment**: [ComplianceAssessment]
+  **Detected Violation**: [DetectedViolation]
+  **SOP Reference**: [SOPReference]
+  **Reproduction of Concern**: [ReproductionOfConcern]
+
+  **Remediation Guidance**
+  **Recommended Action**: [RecommendedAction]
+  **Corrective Verbiage**: [CorrectiveVerbiage]
+
+  Then ask the user: "Would you like to update your visit note with the suggested compliant language above? Reply Yes to accept, or provide your own revised text."
+
+STEP 4 — HANDLE USER CONFIRMATION (on the next turn)
+
+IF the user confirms (says "Yes", "Sure", "Use the corrected version", "Accept", etc.):
+  Call Visit_Note_Processor_Simple with: VoiceNote = the CorrectiveVerbiage from the previous compliance check.
+  Return that action's response to the user.
+
+IF the user provides revised text:
+  Go back to STEP 2 — run Visit_Logging_Compliance_Check on the new text.
+  Repeat the flow until a compliant note is processed.
+
+IF the user declines ("No", "Cancel", "Skip"):
+  Inform the user that the visit note was NOT logged due to compliance concerns. No CRM record is created.</description>
+            <developerName>instructions_0_compliant_visit</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_compliant_visit</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>CRITICAL RULES:
+1. NEVER call Visit_Note_Processor_Simple without running Visit_Logging_Compliance_Check first.
+2. If ComplianceStatus is anything other than "Compliant", do NOT call Visit_Note_Processor_Simple until the user either confirms the corrective verbiage or provides compliant revised text that passes a subsequent compliance check.
+3. When presenting compliance findings, always include ALL fields: Status, Risk Level, Assessment, Detected Violation, SOP Reference, Reproduction of Concern, Recommended Action, and Corrective Verbiage.
+4. If the user confirms the corrective verbiage, pass EXACTLY the CorrectiveVerbiage text to Visit_Note_Processor_Simple — do NOT pass the original non-compliant utterance.
+5. If the user provides revised text, run a NEW compliance check on it before processing.
+6. Compliance validation is non-negotiable — it protects the organization and patient safety.</description>
+            <developerName>instructions_1_compliant_visit</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_1_compliant_visit</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Visit_Logging_Compliance_Check_CVL</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Visit_Note_Processor_Simple_CVL</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Visit_Logging_Compliance_Check_CVL</fullName>
+            <description>Validates visit note text against compliance SOPs for off-label promotion, adverse event reporting, and promotional language guidelines. Returns compliance status, violation details, risk level, and corrective verbiage.</description>
+            <developerName>Visit_Logging_Compliance_Check_CVL</developerName>
+            <invocationTarget>Visit_Logging_Compliance_Check</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Visit_Logging_Compliance_Check</localDeveloperName>
+            <masterLabel>Visit Logging Compliance Check</masterLabel>
+            <progressIndicatorMessage>Checking compliance...</progressIndicatorMessage>
+            <source>Visit_Logging_Compliance_Check</source>
+        </localActions>
+        <localActions>
+            <fullName>Visit_Note_Processor_Simple_CVL</fullName>
+            <description>Processes compliant visit note text into structured CRM records — creates or updates ProviderVisit, product discussions, medical inquiries, and follow-up visits.</description>
+            <developerName>Visit_Note_Processor_Simple_CVL</developerName>
+            <invocationTarget>Visit_Note_Processor_Simple</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Visit_Note_Processor_Simple</localDeveloperName>
+            <masterLabel>Visit Note Processor Simple</masterLabel>
+            <progressIndicatorMessage>Processing visit notes...</progressIndicatorMessage>
+            <source>Visit_Note_Processor_Simple</source>
+        </localActions>
+        <localDeveloperName>PostCallVisitNotes</localDeveloperName>
+        <masterLabel>PostCallVisitNotes</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>In scope: Parsing voice or text visit notes, checking them for compliance, creating/updating CRM records when compliant, presenting compliance findings and corrective verbiage when non-compliant, handling user confirmation to accept corrective verbiage or provide revised text, and re-checking revised text for compliance.
+Out of scope: Making compliance decisions outside the designated compliance action; processing visit notes without running the compliance check first; calling the visit-note processor when the compliance status is anything other than Compliant without user confirmation of the corrective verbiage.</scope>
+        <source>PostCallVisitNotes</source>
+    </localTopics>
+    <masterLabel>Compliant Visit Logging</masterLabel>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__Messaging</surface>
+        <surfaceType>Messaging</surfaceType>
+    </plannerSurfaces>
+    <plannerType>AiCopilot__ReAct</plannerType>
+</GenAiPlannerBundle>

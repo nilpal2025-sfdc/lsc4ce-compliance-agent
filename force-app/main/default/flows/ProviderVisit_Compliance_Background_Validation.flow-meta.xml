@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <description>Background LLM-based compliance validation that creates AppAlerts for Field Reps when visit notes contain violations after mobile sync.</description>
+    <interviewLabel>ProviderVisit Compliance Background Validation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>ProviderVisit Compliance Background Validation</label>
+
+    <!-- Process Metadata -->
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+
+    <!-- Assignments -->
+    <assignments>
+        <name>Calculate_Expiration_Date</name>
+        <label>Calculate Expiration Date</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>varExpirationDays</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fx_Calculate_Expiration_Days</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varExpirationDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fx_Calculate_Expiration_DateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Build_Alert_Message</targetReference>
+        </connector>
+    </assignments>
+
+    <assignments>
+        <name>Build_Alert_Message</name>
+        <label>Build Alert Message</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>varAlertMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fx_Build_Message</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Compliance_Alert</targetReference>
+        </connector>
+    </assignments>
+
+    <!-- Decisions -->
+    <decisions>
+        <name>Check_Field_Blank</name>
+        <label>Is NextProviderVisitObjective Blank</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <defaultConnectorLabel>Field is Blank</defaultConnectorLabel>
+        <rules>
+            <name>Field_Has_Value</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.NextProviderVisitObjective</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Validate_Compliance</targetReference>
+            </connector>
+            <label>Field Has Value</label>
+        </rules>
+    </decisions>
+
+    <decisions>
+        <name>Check_Compliance_Status</name>
+        <label>Is Compliant</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <defaultConnectorLabel>Compliant</defaultConnectorLabel>
+        <rules>
+            <name>Non_Compliant</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varComplianceStatus</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Compliant</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>varComplianceStatus</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>varDetectedViolation</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>varRiskLevel</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Calculate_Expiration_Date</targetReference>
+            </connector>
+            <label>Non-Compliant</label>
+        </rules>
+    </decisions>
+
+    <decisions>
+        <name>Check_Territory_Found</name>
+        <label>Does User Have Territory</label>
+        <locationX>176</locationX>
+        <locationY>1106</locationY>
+        <defaultConnectorLabel>No Territory</defaultConnectorLabel>
+        <rules>
+            <name>Territory_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varUserTerritory</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_App_Alert_Territory</targetReference>
+            </connector>
+            <label>Territory Found</label>
+        </rules>
+    </decisions>
+
+    <!-- Formulas -->
+    <formulas>
+        <name>fx_Calculate_Expiration_Days</name>
+        <dataType>Number</dataType>
+        <expression>IF(
+  {!varRiskLevel} = &quot;Critical&quot;,
+  3,
+  IF(
+    {!varRiskLevel} = &quot;High&quot;,
+    7,
+    14
+  )
+)</expression>
+        <scale>0</scale>
+    </formulas>
+
+    <formulas>
+        <name>fx_Calculate_Expiration_DateTime</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE(TEXT(TODAY() + {!varExpirationDays}) &amp; &quot; 23:59:59&quot;)</expression>
+    </formulas>
+
+    <formulas>
+        <name>fx_Build_Message</name>
+        <dataType>String</dataType>
+        <expression>{!varDetectedViolation} &amp; &quot;
+
+Recommended Action:
+&quot; &amp; {!varCorrectiveVerbiage}</expression>
+    </formulas>
+
+    <formulas>
+        <name>fx_Alert_Name</name>
+        <dataType>String</dataType>
+        <expression>&quot;Compliance Issue - &quot; &amp; TEXT(TODAY())</expression>
+    </formulas>
+
+    <!-- Record Creates -->
+    <recordCreates>
+        <name>Create_Compliance_Alert</name>
+        <label>Create Compliance Alert</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <connector>
+            <targetReference>Create_App_Alert</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Alert_Name__c</field>
+            <value>
+                <elementReference>fx_Alert_Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Open</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Severity__c</field>
+            <value>
+                <elementReference>varRiskLevel</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Alert_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>User__c</field>
+            <value>
+                <elementReference>$Record.OwnerId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Record_Id__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Record_Type__c</field>
+            <value>
+                <stringValue>ProviderVisit</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Field_Name__c</field>
+            <value>
+                <stringValue>NextProviderVisitObjective</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Original_Value__c</field>
+            <value>
+                <elementReference>$Record.NextProviderVisitObjective</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Detected_Violation__c</field>
+            <value>
+                <elementReference>varDetectedViolation</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Corrective_Verbiage__c</field>
+            <value>
+                <elementReference>varCorrectiveVerbiage</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Risk_Level__c</field>
+            <value>
+                <elementReference>varRiskLevel</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SOP_Reference__c</field>
+            <value>
+                <elementReference>varSOPReference</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Compliance_Alert__c</object>
+        <assignRecordIdToReference>varComplianceAlertId</assignRecordIdToReference>
+    </recordCreates>
+
+    <recordCreates>
+        <name>Create_App_Alert</name>
+        <label>Create App Alert</label>
+        <locationX>50</locationX>
+        <locationY>782</locationY>
+        <connector>
+            <targetReference>Link_Alert_To_AppAlert</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Compliance Issue Detected</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Message</field>
+            <value>
+                <elementReference>varAlertMessage</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Notification</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>DisplayContextType</field>
+            <value>
+                <stringValue>Object</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>DisplayContextName</field>
+            <value>
+                <stringValue>ProviderVisit</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Severity</field>
+            <value>
+                <elementReference>varRiskLevel</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>EffectiveDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ValidUntilDate</field>
+            <value>
+                <elementReference>varExpirationDate</elementReference>
+            </value>
+        </inputAssignments>
+        <object>AppAlert</object>
+        <assignRecordIdToReference>varAppAlertId</assignRecordIdToReference>
+    </recordCreates>
+
+    <recordCreates>
+        <name>Create_App_Alert_Territory</name>
+        <label>Create App Alert Territory</label>
+        <locationX>50</locationX>
+        <locationY>1214</locationY>
+        <inputAssignments>
+            <field>AlertReferenceRecordId</field>
+            <value>
+                <elementReference>varAppAlertId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TerritoryId</field>
+            <value>
+                <elementReference>varUserTerritory.Territory2Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>AppAlertTerritory</object>
+    </recordCreates>
+
+    <!-- Record Lookups -->
+    <recordLookups>
+        <name>Get_User_Territory</name>
+        <label>Get User Primary Territory</label>
+        <locationX>50</locationX>
+        <locationY>998</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Territory_Found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>UserId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OwnerId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>UserTerritory2Association</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+        <outputReference>varUserTerritory</outputReference>
+    </recordLookups>
+
+    <!-- Record Updates -->
+    <recordUpdates>
+        <name>Link_Alert_To_AppAlert</name>
+        <label>Link Compliance Alert to AppAlert</label>
+        <locationX>50</locationX>
+        <locationY>890</locationY>
+        <connector>
+            <targetReference>Get_User_Territory</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varComplianceAlertId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>App_Alert_Id__c</field>
+            <value>
+                <elementReference>varAppAlertId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Compliance_Alert__c</object>
+    </recordUpdates>
+
+    <!-- Subflows -->
+    <subflows>
+        <name>Validate_Compliance</name>
+        <label>Validate Compliance</label>
+        <locationX>50</locationX>
+        <locationY>242</locationY>
+        <connector>
+            <targetReference>Check_Compliance_Status</targetReference>
+        </connector>
+        <flowName>Visit_Logging_Compliance_Check</flowName>
+        <inputAssignments>
+            <name>VoiceTextUtterance</name>
+            <value>
+                <elementReference>$Record.NextProviderVisitObjective</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>varComplianceStatus</assignToReference>
+            <name>ComplianceStatus</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>varRiskLevel</assignToReference>
+            <name>RiskLevel</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>varDetectedViolation</assignToReference>
+            <name>DetectedViolation</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>varCorrectiveVerbiage</assignToReference>
+            <name>CorrectiveVerbiage</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>varComplianceAssessment</assignToReference>
+            <name>ComplianceAssessment</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>varSOPReference</assignToReference>
+            <name>SOPReference</name>
+        </outputAssignments>
+    </subflows>
+
+    <!-- Start -->
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Field_Blank</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>NextProviderVisitObjective</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>NextProviderVisitObjective</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>ProviderVisit</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+
+    <!-- Variables -->
+    <variables>
+        <name>varComplianceStatus</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varRiskLevel</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varDetectedViolation</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varCorrectiveVerbiage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varComplianceAssessment</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varSOPReference</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varExpirationDays</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+
+    <variables>
+        <name>varExpirationDate</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varAlertMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varComplianceAlertId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varAppAlertId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <name>varUserTerritory</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>UserTerritory2Association</objectType>
+    </variables>
+
+    <status>Draft</status>
+</Flow>

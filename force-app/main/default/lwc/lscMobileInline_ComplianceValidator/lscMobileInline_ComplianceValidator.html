@@ -1,0 +1,48 @@
+<template>
+    <div class="container">
+        <h2 class="header">Compliance Check</h2>
+
+        <template lwc:if={hasObjective}>
+            <p class="detail-label">Next Visit Objective</p>
+            <p class="detail-value">{objectiveText}</p>
+        </template>
+
+        <template lwc:if={showUnavailable}>
+            <p class="warning-text">LLM compliance validation is not available. Ensure the Visit_Logging_Compliance_Check flow is active.</p>
+        </template>
+
+        <template lwc:if={error}>
+            <p class="error-text">{error}</p>
+        </template>
+
+        <button class="validate-btn" disabled={validateDisabled} onclick={handleValidate}>
+            Validate Compliance
+        </button>
+
+        <template lwc:if={isLoading}>
+            <p class="loading-text">Running LLM compliance check...</p>
+        </template>
+
+        <template lwc:if={hasResult}>
+            <div class={resultCardClass}>
+                <div class="result-header">
+                    <span class="result-title">{validationResult.title}</span>
+                    <template lwc:if={hasRiskLevel}>
+                        <span class={riskBadgeClass}>{validationResult.riskLevel}</span>
+                    </template>
+                </div>
+
+                <template lwc:if={hasFlaggedContent}>
+                    <div class="detail-section">
+                        <p class="detail-label">Flagged Content</p>
+                        <p class="detail-value highlight">{validationResult.reproductionOfConcern}</p>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template lwc:if={showNoObjective}>
+            <p class="muted-text">No Next Visit Objective set on this record.</p>
+        </template>
+    </div>
+</template>
