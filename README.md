@@ -179,6 +179,41 @@ WHERE Status__c = 'Open' AND Severity__c = 'Critical'
 ---
 
 ## Important Notes
+## Known Deployment Limitations
+
+### Agentforce Components (Manual Setup Required)
+
+The following components **cannot be deployed via metadata API** to a new org. They are included in the repo as reference but must be configured manually through Agent Builder:
+
+| Component | Type | Why It Fails | Manual Setup |
+|-----------|------|--------------|--------------|
+| `PostCallVisitNotes` | GenAiPlugin | Platform internal error on cross-org deploy | Create Topic in Agent Builder |
+| `Compliant_Visit_Logging` | GenAiPlannerBundle | Depends on GenAiPlugin | Configure in Agent Builder |
+| `Compliant_Visit_Logging` | Bot | Depends on PlannerBundle | Created automatically with Agent |
+| `Compliance_Check` | GenAiPromptTemplate | References org-specific Data Library (Einstein Search) | Create after uploading SOP docs |
+| `Visit_Logging_Compliance_Check` | Flow | References `Compliance_Check` prompt template | Deploys after template is configured |
+
+**Use `--skip-agentforce` flag** for clean deployments:
+
+```bash
+./scripts/deploy.sh my-org --skip-agentforce
+```
+
+The `.forceignore` file excludes these components from `sf project deploy start --source-dir force-app` operations.
+
+### What Deploys Successfully (No Manual Setup)
+
+All core compliance framework components deploy without issues:
+- Custom objects + fields (`Compliance_Rule__c`, `Compliance_Alert__c`, `Compliance_Audit_Log__c`)
+- Apex classes (8) + test classes (7) — including `VisitNoteProcessor`
+- Triggers (`ProviderVisitComplianceTrigger`, `AccountComplianceTrigger`)
+- Flows (`Visit_Note_Processor_Simple`, `AccountAProductNames`, `ProviderVisit_Compliance_Background_Validation`)
+- Prompt template (`Visit_Note_Mapper`)
+- LWC components
+- Permission set
+
+---
+
 
 - **This is a demonstration/prototype.** See disclaimers in the Implementation Guide before using in regulated environments.
 - The `AccountComplianceTrigger` validates `Account.Description` as a demo/proxy — useful for testing without LSC package.

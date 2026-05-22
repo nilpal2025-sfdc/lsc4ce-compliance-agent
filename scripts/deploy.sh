@@ -27,37 +27,49 @@ echo ""
 
 command -v sf >/dev/null 2>&1 || { echo "Error: Salesforce CLI (sf) not installed. Install from https://developer.salesforce.com/tools/salesforcecli"; exit 1; }
 
-echo "[1/7] Deploying Custom Objects..."
+echo "[1/8] Deploying Custom Objects..."
 sf project deploy start --source-dir force-app/main/default/objects $ORG_FLAG --wait 10
 echo ""
 
-echo "[2/7] Deploying Apex Classes..."
+echo "[2/8] Deploying Apex Classes..."
 sf project deploy start --source-dir force-app/main/default/classes $ORG_FLAG --wait 10
 echo ""
 
-echo "[3/7] Deploying Triggers..."
+echo "[3/8] Deploying Triggers..."
 sf project deploy start --source-dir force-app/main/default/triggers $ORG_FLAG --wait 10
 echo ""
 
-echo "[4/7] Deploying Flows..."
+echo "[4/8] Deploying Flows..."
 sf project deploy start --source-dir force-app/main/default/flows $ORG_FLAG --wait 10
 echo ""
 
-echo "[5/7] Deploying Permission Sets..."
+echo "[5/8] Deploying Prompt Templates..."
+sf project deploy start --source-dir force-app/main/default/genAiPromptTemplates/Visit_Note_Mapper.genAiPromptTemplate-meta.xml $ORG_FLAG --wait 10 || echo "  Warning: Visit_Note_Mapper deployment failed (requires Einstein Generative AI)"
+echo ""
+
+echo "[6/8] Deploying Permission Sets..."
 sf project deploy start --source-dir force-app/main/default/permissionsets $ORG_FLAG --wait 10
 echo ""
 
-echo "[6/7] Deploying Lightning Web Components..."
+echo "[7/8] Deploying Lightning Web Components..."
 sf project deploy start --source-dir force-app/main/default/lwc $ORG_FLAG --wait 10
 echo ""
 
 if [ "$SKIP_AGENTFORCE" = true ]; then
-    echo "[7/7] Skipping Agentforce configuration (--skip-agentforce flag set)"
+    echo "[8/8] Skipping Agentforce configuration (--skip-agentforce flag set)"
+    echo ""
+    echo "  Note: Agentforce components (GenAiPlugin, PlannerBundle, Bot) cannot be"
+    echo "  deployed via metadata API to a new org. They must be configured manually"
+    echo "  through Agent Builder. See docs/CONFIGURATION.md for instructions."
 else
-    echo "[7/7] Deploying Agentforce Configuration..."
-    sf project deploy start --source-dir force-app/main/default/genAiPlugins $ORG_FLAG --wait 10 || echo "  Warning: genAiPlugins deployment failed (requires Einstein Agent license)"
-    sf project deploy start --source-dir force-app/main/default/genAiPlannerBundles $ORG_FLAG --wait 10 || echo "  Warning: genAiPlannerBundles deployment failed (requires Einstein Agent license)"
-    sf project deploy start --source-dir force-app/main/default/bots $ORG_FLAG --wait 10 || echo "  Warning: Bots deployment failed (requires Einstein Agent license)"
+    echo "[8/8] Deploying Agentforce Configuration..."
+    echo "  Note: These components often fail on first deploy to a new org due to"
+    echo "  platform limitations. If they fail, configure via Agent Builder instead."
+    echo ""
+    sf project deploy start --source-dir force-app/main/default/genAiPromptTemplates/Compliance_Check.genAiPromptTemplate-meta.xml $ORG_FLAG --wait 10 || echo "  Warning: Compliance_Check template failed (requires Data Library with SOP documents)"
+    sf project deploy start --source-dir force-app/main/default/genAiPlugins $ORG_FLAG --wait 10 || echo "  Warning: GenAiPlugin failed (known platform limitation — configure via Agent Builder)"
+    sf project deploy start --source-dir force-app/main/default/genAiPlannerBundles $ORG_FLAG --wait 10 || echo "  Warning: PlannerBundle failed (depends on GenAiPlugin — configure via Agent Builder)"
+    sf project deploy start --source-dir force-app/main/default/bots $ORG_FLAG --wait 10 || echo "  Warning: Bot failed (depends on PlannerBundle — configure via Agent Builder)"
 fi
 echo ""
 

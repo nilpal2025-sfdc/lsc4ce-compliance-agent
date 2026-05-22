@@ -10,3 +10,15 @@ package.xml
 
 # LWC Jest
 **/__tests__/**
+
+# Agentforce components — not portable across orgs via metadata API.
+# These require manual configuration in each target org through Agent Builder.
+# See docs/CONFIGURATION.md for setup instructions.
+force-app/main/default/genAiPlugins/
+force-app/main/default/genAiPlannerBundles/
+force-app/main/default/bots/
+
+# Prompt templates with org-specific data providers (Einstein Search indexes, file libraries).
+# Deploy Visit_Note_Mapper separately after AccountAProductNames flow is active.
+# Compliance_Check requires a Data Library with uploaded SOP documents.
+force-app/main/default/genAiPromptTemplates/Compliance_Check.genAiPromptTemplate-meta.xml
