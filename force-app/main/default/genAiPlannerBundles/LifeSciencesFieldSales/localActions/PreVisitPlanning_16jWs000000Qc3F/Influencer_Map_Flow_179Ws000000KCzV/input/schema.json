@@ -1,0 +1,22 @@
+{
+  "required" : [ "TargetAccountName", "targetAccountId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "TargetAccountName" : {
+      "title" : "TargetAccountName",
+      "description" : "Target Account Name",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "targetAccountId" : {
+      "title" : "targetAccountId",
+      "description" : "Account ID to analyze for affiliations",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

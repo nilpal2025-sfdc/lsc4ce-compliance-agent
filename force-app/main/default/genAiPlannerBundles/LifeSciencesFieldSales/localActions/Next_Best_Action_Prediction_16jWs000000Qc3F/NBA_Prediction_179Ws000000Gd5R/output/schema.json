@@ -1,0 +1,34 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "Final_NBA_Formatted_Output" : {
+      "title" : "Final_NBA_Formatted_Output",
+      "description" : "Final Formatted Recommendations for NBA",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "Final_NBA_Output" : {
+      "title" : "Final_NBA_Output",
+      "description" : "Final unformatted output for NBA",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "NBA_Results" : {
+      "title" : "NBA_Results",
+      "description" : "unformatted output for NBA",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

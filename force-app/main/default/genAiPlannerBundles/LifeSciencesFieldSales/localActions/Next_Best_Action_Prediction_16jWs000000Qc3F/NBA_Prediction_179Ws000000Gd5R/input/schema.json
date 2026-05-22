@@ -1,0 +1,15 @@
+{
+  "required" : [ "accountID" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "accountID" : {
+      "title" : "accountID",
+      "description" : "Account ID for which NBA recommendations are needed",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

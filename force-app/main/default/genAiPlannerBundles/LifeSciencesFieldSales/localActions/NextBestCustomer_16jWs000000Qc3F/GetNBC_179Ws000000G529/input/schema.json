@@ -1,0 +1,23 @@
+{
+  "required" : [ "RAC" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "NumberOfNBC" : {
+      "title" : "NumberOfNBC",
+      "description" : "Number of Next Best Customer",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "RAC" : {
+      "title" : "RAC",
+      "description" : "Number of Next Best Customer",
+      "multipleOf" : 1.0E-34,
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

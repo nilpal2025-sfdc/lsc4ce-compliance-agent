@@ -1,0 +1,78 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "AffiliationOutput" : {
+      "title" : "AffiliationOutput",
+      "description" : "Output of Affiliations",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "FinalResult" : {
+      "title" : "FinalResult",
+      "description" : "Final Output of Affiliation",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "FormattedAffiliationOutput" : {
+      "title" : "FormattedAffiliationOutput",
+      "description" : "Affiliation Results",
+      "maxLength" : 100000,
+      "lightning:type" : "lightning__richTextType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "TargetAccountName" : {
+      "title" : "TargetAccountName",
+      "description" : "Target account name",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "affiliationRecords" : {
+      "title" : "affiliationRecords",
+      "description" : "Retrieved provider affiliations",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "lightning__recordInfoType",
+        "lightning:sObjectInfo" : {
+          "apiName" : "ProviderAffiliation"
+        }
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorMessage" : {
+      "title" : "errorMessage",
+      "description" : "Error message if any",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "success" : {
+      "title" : "success",
+      "description" : "Flow execution success status",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

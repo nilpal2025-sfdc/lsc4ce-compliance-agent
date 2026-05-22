@@ -1,0 +1,29 @@
+{
+  "required" : [ "targetDate" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "focus" : {
+      "title" : "Focus",
+      "description" : "Focus area for the briefing",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "targetDate" : {
+      "title" : "Target Date",
+      "description" : "Date for briefing generation",
+      "lightning:type" : "lightning__dateType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "userId" : {
+      "title" : "User ID",
+      "description" : "Salesforce User ID (optional - will use current user if not provided)",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

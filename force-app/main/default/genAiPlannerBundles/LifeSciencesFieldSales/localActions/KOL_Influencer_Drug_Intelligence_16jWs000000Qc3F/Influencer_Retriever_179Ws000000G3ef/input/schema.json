@@ -1,0 +1,22 @@
+{
+  "required" : [ "Input:Input_Query" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "Input:Input_Query" : {
+      "title" : "Input Query",
+      "description" : "User Query",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "citationMode" : {
+      "title" : "Citation Mode",
+      "description" : "Select Citation Mode",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

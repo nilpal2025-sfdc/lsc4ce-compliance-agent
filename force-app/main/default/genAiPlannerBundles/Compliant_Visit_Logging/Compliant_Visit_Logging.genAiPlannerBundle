@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>Validates visit notes for regulatory compliance before processing them into CRM records. Enforces compliance-first workflow with corrective guidance for non-compliant notes.</description>
+    <localActionLinks>
+        <genAiFunctionName>AnswerQuestionsWithKnowledge_16jWs000000l0Cf</genAiFunctionName>
+    </localActionLinks>
     <localTopicLinks>
         <genAiPluginName>Compliant_Visit_Logging_PostCallVisitNotes</genAiPluginName>
     </localTopicLinks>
@@ -45,16 +48,16 @@ Use the voice or text utterance provided by the user as the visit note to proces
 
 STEP 2 — RUN COMPLIANCE CHECK (MANDATORY)
 Call the Visit_Logging_Compliance_Check action with:
-  Input: VoiceTextUtterance = the user's voice or text input (required).
+  Input: VoiceTextUtterance = the user&apos;s voice or text input (required).
 Store all returned outputs: ComplianceStatus, CorrectiveVerbiage, DetectedViolation, RiskLevel, ComplianceAssessment, RecommendedAction, SOPReference, ReproductionOfConcern, FinalFormattedOutput.
 
 STEP 3 — DECIDE NEXT STEP USING COMPLIANCE STATUS
 
-IF ComplianceStatus = "Compliant":
+IF ComplianceStatus = &quot;Compliant&quot;:
   Call Visit_Note_Processor_Simple with: VoiceNote = the original user utterance.
-  Return that action's response to the user (confirmation of Note created/updated, products discussed, follow-up visits).
+  Return that action&apos;s response to the user (confirmation of Note created/updated, products discussed, follow-up visits).
 
-IF ComplianceStatus is anything other than "Compliant" (e.g. Non-Compliant, Flagged for Review):
+IF ComplianceStatus is anything other than &quot;Compliant&quot; (e.g. Non-Compliant, Flagged for Review):
   Do NOT call Visit_Note_Processor_Simple yet.
   Show the user the compliance findings in the following format:
 
@@ -72,19 +75,19 @@ IF ComplianceStatus is anything other than "Compliant" (e.g. Non-Compliant, Flag
   **Recommended Action**: [RecommendedAction]
   **Corrective Verbiage**: [CorrectiveVerbiage]
 
-  Then ask the user: "Would you like to update your visit note with the suggested compliant language above? Reply Yes to accept, or provide your own revised text."
+  Then ask the user: &quot;Would you like to update your visit note with the suggested compliant language above? Reply Yes to accept, or provide your own revised text.&quot;
 
 STEP 4 — HANDLE USER CONFIRMATION (on the next turn)
 
-IF the user confirms (says "Yes", "Sure", "Use the corrected version", "Accept", etc.):
+IF the user confirms (says &quot;Yes&quot;, &quot;Sure&quot;, &quot;Use the corrected version&quot;, &quot;Accept&quot;, etc.):
   Call Visit_Note_Processor_Simple with: VoiceNote = the CorrectiveVerbiage from the previous compliance check.
-  Return that action's response to the user.
+  Return that action&apos;s response to the user.
 
 IF the user provides revised text:
   Go back to STEP 2 — run Visit_Logging_Compliance_Check on the new text.
   Repeat the flow until a compliant note is processed.
 
-IF the user declines ("No", "Cancel", "Skip"):
+IF the user declines (&quot;No&quot;, &quot;Cancel&quot;, &quot;Skip&quot;):
   Inform the user that the visit note was NOT logged due to compliance concerns. No CRM record is created.</description>
             <developerName>instructions_0_compliant_visit</developerName>
             <language>en_US</language>
@@ -94,7 +97,7 @@ IF the user declines ("No", "Cancel", "Skip"):
         <genAiPluginInstructions>
             <description>CRITICAL RULES:
 1. NEVER call Visit_Note_Processor_Simple without running Visit_Logging_Compliance_Check first.
-2. If ComplianceStatus is anything other than "Compliant", do NOT call Visit_Note_Processor_Simple until the user either confirms the corrective verbiage or provides compliant revised text that passes a subsequent compliance check.
+2. If ComplianceStatus is anything other than &quot;Compliant&quot;, do NOT call Visit_Note_Processor_Simple until the user either confirms the corrective verbiage or provides compliant revised text that passes a subsequent compliance check.
 3. When presenting compliance findings, always include ALL fields: Status, Risk Level, Assessment, Detected Violation, SOP Reference, Reproduction of Concern, Recommended Action, and Corrective Verbiage.
 4. If the user confirms the corrective verbiage, pass EXACTLY the CorrectiveVerbiage text to Visit_Note_Processor_Simple — do NOT pass the original non-compliant utterance.
 5. If the user provides revised text, run a NEW compliance check on it before processing.
@@ -145,6 +148,19 @@ Out of scope: Making compliance decisions outside the designated compliance acti
         <source>PostCallVisitNotes</source>
     </localTopics>
     <masterLabel>Compliant Visit Logging</masterLabel>
+    <plannerActions>
+        <fullName>AnswerQuestionsWithKnowledge_16jWs000000l0Cf</fullName>
+        <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+        <developerName>AnswerQuestionsWithKnowledge_16jWs000000l0Cf</developerName>
+        <invocationTarget>streamKnowledgeSearch</invocationTarget>
+        <invocationTargetType>standardInvocableAction</invocationTargetType>
+        <isConfirmationRequired>false</isConfirmationRequired>
+        <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+        <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+        <masterLabel>Answer Questions with Knowledge</masterLabel>
+        <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+        <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+    </plannerActions>
     <plannerSurfaces>
         <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
         <callRecordingAllowed>false</callRecordingAllowed>

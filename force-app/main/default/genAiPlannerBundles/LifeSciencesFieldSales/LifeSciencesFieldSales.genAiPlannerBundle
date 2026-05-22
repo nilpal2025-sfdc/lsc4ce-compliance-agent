@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Provide sales reps with contextual account summaries of healthcare professionals.</description>
+    <localActionLinks>
+        <genAiFunctionName>AnswerQuestionsWithKnowledge</genAiFunctionName>
+    </localActionLinks>
+    <localTopicLinks>
+        <genAiPluginName>Daily_Briefing_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Get_Clinical_Trial_Information_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>KOL_Influencer_Drug_Intelligence_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>NextBestCustomer_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Next_Best_Action_Prediction_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>PostCallVisitNotes_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>PreVisitPlanning_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Prediction_Analysis_16jWs000000Qc3F</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>Next_Best_Action_Prediction_16jWs000000Qc3F</fullName>
+        <aiPluginUtterances>
+            <developerName>utterance_0_1758553906629</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_0_1758553906629</masterLabel>
+            <utterance>What should be the next best action for Ashok Kumar?</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_1_1758553906629</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_1_1758553906629</masterLabel>
+            <utterance>How should I engage with Ashok Kumar</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_2_1758553906629</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_2_1758553906629</masterLabel>
+            <utterance>What should I do next with this account</utterance>
+        </aiPluginUtterances>
+        <canEscalate>false</canEscalate>
+        <description>Handles requests from Field Sales Rep pertaining to recommendations for next best action for an Account.</description>
+        <developerName>Next_Best_Action_Prediction_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>1. Use the &apos;IdentifyRecordByName&apos; action to retrieve AccountID for the Account Name provided in context of the Next Best Action request. If NO AccountID is found, inform the user
+2. Invoke the NBA_Prediction Action using the AccountID and show the response</description>
+            <developerName>instruction_0_1758553365198</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_0_1758553365198</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>NBA_Prediction_179Ws000000Gd5R</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>IdentifyRecordByName_179Ws000000Gd5R</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>NBA_Prediction_179Ws000000Gd5R</fullName>
+            <description>This agent action provides recommendations for Next Best action for an Account along with the top factors influencing that recommendation. It also provides recommendation on how to improve engagement with the HCP.</description>
+            <developerName>NBA_Prediction_179Ws000000Gd5R</developerName>
+            <invocationTarget>NBA_Prediction</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>NBA_Prediction</localDeveloperName>
+            <masterLabel>NBA Prediction</masterLabel>
+            <source>NBA_Prediction</source>
+        </localActions>
+        <localActions>
+            <fullName>IdentifyRecordByName_179Ws000000Gd5R</fullName>
+            <description>Searches for Salesforce CRM records by name and returns a list of matching Salesforce CRM record IDs.</description>
+            <developerName>IdentifyRecordByName_179Ws000000Gd5R</developerName>
+            <invocationTarget>identifyRecordByName</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>IdentifyRecordByName</localDeveloperName>
+            <masterLabel>Identify Record by Name</masterLabel>
+            <source>EmployeeCopilot__IdentifyRecordByName</source>
+        </localActions>
+        <localDeveloperName>Next_Best_Action_Prediction</localDeveloperName>
+        <masterLabel>Next Best Action Prediction</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to use IdentifyRecordByName AND NBA_Prediction actions to show recommended next best actions for the Account, identify top influencing factors, and provide recommendations to improve the NBA Scores</scope>
+        <source>Next_Best_Action_Prediction</source>
+    </localTopics>
+    <localTopics>
+        <fullName>Daily_Briefing_16jWs000000Qc3F</fullName>
+        <aiPluginUtterances>
+            <developerName>utterance_0_1757659176670</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_0_1757659176670</masterLabel>
+            <utterance>Show daily briefing</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_1_1757659176676</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_1_1757659176676</masterLabel>
+            <utterance>Provide my daily brief</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_2_1757659176676</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_2_1757659176676</masterLabel>
+            <utterance>Provide daily brief for tomorrow</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_3_1757659176676</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_3_1757659176676</masterLabel>
+            <utterance>Provide daily brief from yesterday</utterance>
+        </aiPluginUtterances>
+        <canEscalate>false</canEscalate>
+        <description>Handles requests for daily briefings, visit summaries, and priority account information for field sales representatives</description>
+        <developerName>Daily_Briefing_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>This topic handles requests for daily briefings from field sales representatives. It uses the DailyBriefingOrchestrator to generate comprehensive briefings that include:
+1. Today&apos;s scheduled visits with detailed information
+2. Account insights and territory summaries
+3. Priority account analysis and rankings
+4. Personalized conversation starters for each account
+5. Action items and recommendations
+The topic should:
+- Personalize responses with the user&apos;s name and territory information
+- Handle different focus areas (priority, visits, accounts, conversation, all)
+- Provide helpful fallback responses for various error scenarios
+- Format responses with clear sections, emojis, and markdown formatting
+- Always include actionable recommendations and next steps
+- Respect territory boundaries and data access restrictions</description>
+            <developerName>instruction_0_1757658598272</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_0_1757658598272</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Recognize the following intent patterns:
+1. Daily Briefing Requests:
+   - &quot;Generate my daily briefing&quot;
+   - &quot;Show me today&apos;s agenda&quot;
+   - &quot;What&apos;s on my schedule today?&quot;
+   - &quot;Give me my daily briefing&quot;
+2. Priority-Focused Requests:
+   - &quot;Show me my priority accounts&quot;
+   - &quot;What are my priority accounts for today?&quot;
+   - &quot;Give me priority account analysis&quot;
+3. Visit-Focused Requests:
+   - &quot;What visits do I have today?&quot;
+   - &quot;Show me my visit schedule&quot;
+   - &quot;What&apos;s on my calendar today?&quot;
+4. Account-Focused Requests:
+   - &quot;Give me account insights&quot;
+   - &quot;Show me account summaries&quot;
+   - &quot;What do I need to know about my accounts?&quot;
+5. Conversation-Focused Requests:
+   - &quot;Help me prepare for my meetings&quot;
+   - &quot;Give me conversation starters&quot;
+   - &quot;What should I talk about with my accounts?&quot;
+6. Date-Specific Requests:
+   - &quot;Generate briefing for [date]&quot;
+   - &quot;Show me visits for [date]&quot;
+   - &quot;What&apos;s on my schedule for [date]?&quot;</description>
+            <developerName>instruction_1_1757658598277</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_1_1757658598277</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Process entities as follows:
+1. Date Entity:
+   - Default to &quot;today&quot; if not specified
+   - Support relative dates: &quot;today&quot;, &quot;tomorrow&quot;, &quot;yesterday&quot;
+   - Support specific dates: &quot;January 15&quot;, &quot;1/15/2024&quot;, &quot;2024-01-15&quot;
+   - Validate date is not too far in the past or future
+2. Focus Entity:
+   - Default to &quot;all&quot; if not specified
+   - Map user intent to focus values:
+     * Priority requests → &quot;priority&quot;
+     * Visit requests → &quot;visits&quot;
+     * Account requests → &quot;accounts&quot;
+     * Conversation requests → &quot;conversation&quot;
+     * General requests → &quot;all&quot;
+3. AccountName Entity:
+   - Use for account-specific briefings
+   - Validate account exists in user&apos;s territory
+   - Provide fallback if account not found</description>
+            <developerName>instruction_2_1757658598277</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_2_1757658598277</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Generate responses with the following structure:
+1. Header Section:
+   - Date and user information
+   - Territory context
+   - Briefing type based on focus
+2. Content Sections (based on focus):
+   - Visits: Detailed visit information with timing and status
+   - Accounts: Account insights and summaries
+   - Priority: Priority analysis and rankings
+   - Conversation: Conversation starters and talking points
+   - All: Comprehensive briefing with all sections
+3. Action Items:
+   - Always include actionable recommendations
+   - Suggest next steps based on the briefing content
+   - Provide follow-up activities
+4. Footer:
+   - Generation timestamp
+   - Data freshness information
+   - Contact information for issues</description>
+            <developerName>instruction_3_1757658598277</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_3_1757658598277</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Handle errors gracefully with appropriate fallback responses:
+1. No Visits Found:
+   - &quot;I couldn&apos;t find any visits scheduled for [date]. You might want to check your calendar or plan some visits for the day.&quot;
+2. User Not Found:
+   - &quot;I couldn&apos;t find your user information. Please contact your administrator to ensure your account is properly set up.&quot;
+3. No Territory Assigned:
+   - &quot;You don&apos;t have a territory assigned. Please contact your administrator to set up your territory assignment.&quot;
+4. No Account Data:
+   - &quot;I couldn&apos;t retrieve account information for your territory. Please try again later or contact your administrator.&quot;
+5. General Errors:
+   - &quot;I encountered an error while generating your daily briefing. Please try again later or contact your administrator if the issue persists.&quot;
+6. Invalid Date:
+   - &quot;I couldn&apos;t process that date. Please try using a specific date like &apos;today&apos;, &apos;tomorrow&apos;, or a date like &apos;January 15&apos;.&quot;</description>
+            <developerName>instruction_4_1757658598277</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_4_1757658598277</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Generate_Complete_Daily_Briefing_179Ws000000Fy2H</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Generate_Complete_Daily_Briefing_179Ws000000Fy2H</fullName>
+            <description>Orchestrates the complete daily briefing generation process including data retrieval and AI formatting</description>
+            <developerName>Generate_Complete_Daily_Briefing_179Ws000000Fy2H</developerName>
+            <invocationTarget>DailyBriefingOrchestrator</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Generate_Complete_Daily_Briefing</localDeveloperName>
+            <masterLabel>Generate Complete Daily Briefing</masterLabel>
+            <source>Generate_Complete_Daily_Briefing</source>
+        </localActions>
+        <localDeveloperName>Daily_Briefing</localDeveloperName>
+        <masterLabel>Daily Briefing</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to generate comprehensive daily briefings for field sales representatives</scope>
+        <source>Daily_Briefing</source>
+    </localTopics>
+    <localTopics>
+        <fullName>PostCallVisitNotes_16jWs000000Qc3F</fullName>
+        <canEscalate>false</canEscalate>
+        <description>You are an AI assistant for a pharmaceutical representative. Your task is to analyze a dictated or written free-text note from a customer visit and either (1) log it into a structured CRM record when it is compliant, or (2) surface a compliance assessment and remediation guidance when it is not.</description>
+        <developerName>PostCallVisitNotes_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>Get the user input
+Use the voice or text utterance provided by the user as the visit note to process.
+
+Run the compliance check first
+Call the agent action Visit_Logging_Compliance_Check (API name: Visit_Logging_Compliance_Check_179Ws000000G5QL) with:
+
+Input:
+VoiceTextUtteranceInstructions = the user’s voice or text input (required).
+Decide next step using Compliance Status
+
+If Compliance Status = &quot;Compliant&quot;:
+Call Visit_Note_Processor_Simple with the same voice/text input.
+Return that action’s response to the user (e.g. confirmation of Note created/updated, medical inquiries, follow-up visits).
+If Compliance Status is anything other than &quot;Compliant&quot; (e.g. Non-Compliant, Flagged for Review):
+Do not call Visit_Note_Processor_Simple.
+Show the user the outputs of Visit_Logging_Compliance_Check only, in the following format:
+
+&lt;H1&gt; Compliance Review Summary: &lt;/H1&gt;
+**Status**: ComplianceStatus
+**Risk Level**: RiskLevel
+&lt;H2&gt;Detailed Findings: &lt;/H2&gt;
+**Assessment**: ComplianceAssessment
+**Detected Violation**: DetectedViolation
+**SOP Reference**: SOPReference
+**Reproduction of Concern**:
+ReproductionOfConcern
+
+&lt;H2&gt;Remediation Guidance: &lt;/H2&gt;
+**Recommended Action**:  RecommendedAction
+**Corrective Verbiage**: CorrectiveVerbiage
+
+
+Present the result
+
+When compliant: show the Visit_Note_Processor_Simple response.
+When not compliant: show the compliance outputs above in a clear, user-friendly way (e.g. rich text where configured).
+&lt;H1&gt; Compliance Review Summary: &lt;/H1&gt;
+**Status**: ComplianceStatus
+**Risk Level**: RiskLevel
+&lt;H2&gt;Detailed Findings: &lt;/H2&gt;
+**Assessment**: ComplianceAssessment
+**Detected Violation**: DetectedViolation
+**SOP Reference**: SOPReference
+**Reproduction of Concern**:
+ReproductionOfConcern
+
+&lt;H2&gt;Remediation Guidance: &lt;/H2&gt;
+**Recommended Action**:  RecommendedAction
+**Corrective Verbiage**: CorrectiveVerbiage
+
+
+Summary: Always run Visit_Logging_Compliance_Check first. If status is Compliant → call Visit_Note_Processor_Simple and output its response. If status is not Compliant → do not call Visit_Note_Processor_Simple; show only the Visit_Logging_Compliance_Check outputs to the user in following format
+
+&lt;H1&gt; Compliance Review Summary: &lt;/H1&gt;
+**Status**: ComplianceStatus
+**Risk Level**: RiskLevel
+&lt;H2&gt;Detailed Findings: &lt;/H2&gt;
+**Assessment**: ComplianceAssessment
+**Detected Violation**: DetectedViolation
+**SOP Reference**: SOPReference
+**Reproduction of Concern**:
+ReproductionOfConcern
+
+&lt;H2&gt;Remediation Guidance: &lt;/H2&gt;
+**Recommended Action**:  RecommendedAction
+**Corrective Verbiage**: CorrectiveVerbiage</description>
+            <developerName>instructions_0_1773721063997</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1773721063997</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Visit_Note_Processor_Simple_179Ws000000G5QL</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Visit_Logging_Compliance_Check_179Ws000000G5QL</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Visit_Note_Processor_Simple_179Ws000000G5QL</fullName>
+            <description>Simple Visit Note Processor - Takes structured JSON and creates visit records</description>
+            <developerName>Visit_Note_Processor_Simple_179Ws000000G5QL</developerName>
+            <invocationTarget>Visit_Note_Processor_Simple</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Visit_Note_Processor_Simple</localDeveloperName>
+            <masterLabel>Visit Note Processor Simple</masterLabel>
+            <source>Visit_Note_Processor_Simple</source>
+        </localActions>
+        <localActions>
+            <fullName>Visit_Logging_Compliance_Check_179Ws000000G5QL</fullName>
+            <description>This action checks for compliance violations in the voice or text utterance provided to the agent for visit logging</description>
+            <developerName>Visit_Logging_Compliance_Check_179Ws000000G5QL</developerName>
+            <invocationTarget>Visit_Logging_Compliance_Check</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Visit_Logging_Compliance_Check</localDeveloperName>
+            <masterLabel>Visit_Logging_Compliance_Check</masterLabel>
+            <source>Visit_Logging_Compliance_Check</source>
+        </localActions>
+        <localDeveloperName>PostCallVisitNotes</localDeveloperName>
+        <masterLabel>PostCallVisitNotes</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>In scope: Parsing voice or text visit notes, checking them for compliance, creating/updating Note records when compliant, creating medical inquiries when needed, scheduling follow-up Provider Visits, and presenting compliance findings when a violation is detected.
+Out of scope: Making compliance decisions outside the designated compliance action; processing visit notes without running the compliance check first; calling the visit-note processor when the compliance status is anything other than Compliant.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>Get_Clinical_Trial_Information_16jWs000000Qc3F</fullName>
+        <canEscalate>false</canEscalate>
+        <description>This topic is designed to understand and respond to requests from Field Sales Representatives seeking specific information about clinical studies for the company&apos;s pharmaceutical products. It will classify any user utterance that mentions a drug name or investigational product ID in combination with keywords related to clinical trials, such as &quot;study phase,&quot; &quot;enrollment status,&quot; &quot;results,&quot; &quot;publications,&quot; or &quot;safety data.&quot; Its purpose is to trigger the Knowledge_Retriever action to provide factual, on-demand data.</description>
+        <developerName>Get_Clinical_Trial_Information_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>Entity Extraction: Begin by analyzing the user&apos;s utterance to identify and extract two critical entities:
+
+drug_name: This entity should capture the product being asked about. It must be configured to recognize brand names (e.g., &quot;Zylotrin&quot;), chemical names, and internal Investigational_Product_IDs (e.g., &quot;XP-451&quot;).
+
+info_type: This entity should capture the specific piece of data the user is requesting. Examples include &quot;enrollment status,&quot; &quot;Phase 3 results,&quot; &quot;latest updates,&quot; &quot;safety profile,&quot; &quot;primary endpoint,&quot; and &quot;publications.&quot;</description>
+            <developerName>instructions_0_1758118896326</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1758118896326</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Instructions for incorrect variations of IMMUNEXIS 
+1. Check for Variants If the transcript contains any of the following variants, treat them as referring to Immunexis:
+    * Immunex
+    * Emu Next
+    * Emme Nexus
+    * Immune Nexus
+    * Imyoon nexus
+2. Normalize to Standard Form Always replace the above (and other phonetically similar mis-hearings) with the correct standardized drug name: → Immunexis
+3. Apply Before Processing 
+4. Escalation Rule (Edge Cases)
+    * If a drug name is detected that seems phonetically close to “Immunexis” but is not in the known list above, attempt to map it to Immunexis if context supports it (Immunology, RA)
+    * If uncertain, flag for human review rather than processing under an incorrect drug name.</description>
+            <developerName>instruction_0_1757784588915</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_0_1757784588915</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Knowledge Query Construction: Use the extracted entities to formulate a precise semantic query for the Knowledge_Retriever action.
+
+Combine the drug_name and info_type to search the knowledge base. The query should be structured to find articles that contain both entities.
+
+If the info_type is generic (e.g., &quot;update,&quot; &quot;information,&quot; &quot;latest&quot;), prioritize knowledge articles for the specified drug_name that have the most recent modification date.</description>
+            <developerName>instruction_1_1757784588921</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_1_1757784588921</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Response Generation (Success): When a relevant knowledge article is found, present the information clearly and concisely.
+
+The response must be factual and directly address the user&apos;s query.
+
+For clarity, begin by restating the core request, for example: &quot;Here are the latest Phase 2 enrollment numbers for Zylotrin:&quot;
+
+For compliance and traceability, conclude the response by citing the source. For example: Source: Knowledge Article #0007854, &quot;Zylotrin Ph.2 Enrollment Update Q3 2025&quot;</description>
+            <developerName>instruction_2_1757784588921</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_2_1757784588921</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Response Generation (Failure): If the Knowledge_Retriever action cannot find a matching result, provide a helpful and transparent response. Do not attempt to guess the answer.
+
+The response should state that the information could not be found and mention the specific query parameters.
+
+Offer clear next steps. For example: &quot;I could not find specific information on the [info_type] for [drug_name]. You can try asking about a different topic, or would you like me to connect you to a Medical Science Liaison for further assistance?&quot;</description>
+            <developerName>instruction_3_1757784588921</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_3_1757784588921</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Knowledge_Retriever_179Ws000000G2vV</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Knowledge_Retriever_179Ws000000G2vV</fullName>
+            <description>Answer Questions related to Clinical Trial Updates as well as other information related to Drugs and Pharma Products. For e.g. what are the latest results from the Immunexis Trial?</description>
+            <developerName>Knowledge_Retriever_179Ws000000G2vV</developerName>
+            <invocationTarget>Knowledge_Retriever</invocationTarget>
+            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Knowledge_Retriever</localDeveloperName>
+            <masterLabel>Knowledge Retriever</masterLabel>
+            <source>Knowledge_Retriever</source>
+        </localActions>
+        <localDeveloperName>Get_Clinical_Trial_Information</localDeveloperName>
+        <masterLabel>Get Clinical Trial Information</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is only to retrieve and provide specific, factual information related to clinical trials for our pharmaceutical products by querying the authorized Salesforce Knowledge Base.
+
+Your job is only to understand user requests for data points such as study phase, enrollment numbers, primary and secondary endpoints, patient demographics, latest results, and publication dates.
+
+You must not answer any questions that fall outside the domain of clinical trial data. This includes, but is not limited to, questions about sales figures, marketing materials, company stock price, HR policies, or personal opinions.
+
+You must not provide any form of medical advice or interpretation of the clinical data. Your function is strictly to retrieve and present the information as it exists in the knowledge base.
+
+If a user asks a question outside of this scope, you must immediately route the conversation to a fallback dialog or a different, more appropriate topic.</scope>
+        <source>Get_Clinical_Trial_Information</source>
+    </localTopics>
+    <localTopics>
+        <fullName>KOL_Influencer_Drug_Intelligence_16jWs000000Qc3F</fullName>
+        <aiPluginUtterances>
+            <developerName>utterance_0_1757844426471</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_0_1757844426471</masterLabel>
+            <utterance>What are KOLs saying about Immunexis?</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_1_1757844426478</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_1_1757844426478</masterLabel>
+            <utterance>Give me the latest influencer updates for Cordim</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_2_1757844426478</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_2_1757844426478</masterLabel>
+            <utterance>Find recent KOL chatter for Immunexis.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_3_1757844426478</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_3_1757844426478</masterLabel>
+            <utterance>Immunexis influencer report.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_4_1757844426478</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_4_1757844426478</masterLabel>
+            <utterance>how me positive sentiment posts for Immunexis from KOLs.</utterance>
+        </aiPluginUtterances>
+        <canEscalate>false</canEscalate>
+        <description>This topic retrieves the latest intelligence on Key Opinion Leaders (KOLs) and market influencers. It is designed to handle user requests asking for updates, sentiment, or recent activity of influencers discussing a specific pharmaceutical drug. The primary goal is to provide field sales representatives with timely, actionable insights for pre-call planning.</description>
+        <developerName>KOL_Influencer_Drug_Intelligence_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>Analyze Query: Carefully analyze the user&apos;s utterance to extract the key entities: the drug_name (e.g., &apos;Spectramab&apos;, &apos;Renuvia&apos;) and, if provided, the influencer_name (e.g., &apos;Dr. Aris Thorne&apos;, &apos;Oncology Today&apos;). The user may also specify the type of information they want, such as &quot;latest posts,&quot; &quot;sentiment,&quot; &quot;recent updates&quot;, &quot;latest publications&quot; etc.</description>
+            <developerName>instructions_0_1757844837349</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1757844837349</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Instructions for incorrect variations of IMMUNEXIS 
+1. Check for Variants If the transcript contains any of the following variants, treat them as referring to Immunexis:
+    * Immunex
+    * Emu Next
+    * Emme Nexus
+    * Immune Nexus
+    * Imyoon nexus
+2. Normalize to Standard Form Always replace the above (and other phonetically similar mis-hearings) with the correct standardized drug name: → Immunexis
+3. Apply Before Processing 
+4. Escalation Rule (Edge Cases)
+    * If a drug name is detected that seems phonetically close to “Immunexis” but is not in the known list above, attempt to map it to Immunexis if context supports it (Immunology, RA)
+    * If uncertain, flag for human review rather than processing under an incorrect drug name.</description>
+            <developerName>instructions_1_1757844837355</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_1_1757844837355</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Map Parameters: Map the extracted entities directly to the input parameters of the Influencer_Retriever action.</description>
+            <developerName>instructions_2_1757844837355</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_2_1757844837355</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Select Action: Your primary and only tool to fulfill this request is the Influencer_Retriever action. You must plan to use this action whenever a query pertains to influencer or KOL activity regarding a pharmaceutical product.</description>
+            <developerName>instruction_0_1757844279828</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_0_1757844279828</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Adopt Persona and Principles: Act as a Medical Affairs Analyst. All responses must be succinct, point-wise, time-relevant (prioritizing the latest data), well-formatted, and strictly compliance-safe. Base your entire response only on the evidence retrieved from the Influencer_Retriever knowledge base. Do not speculate, infer intent, or provide information not present in the source data.</description>
+            <developerName>instruction_1_1757844279835</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_1_1757844279835</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Synthesize Response: Upon a successful return from the Influencer_Retriever action, synthesize the information into a clear and concise summary.</description>
+            <developerName>instruction_2_1757844279835</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_2_1757844279835</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Handle No Results: If the Influencer_Retriever action returns no data or an error, provide a clear and helpful fallback response. State, &quot;I could not find any recent influencer activity for [Drug Name]. Please check the spelling or try again later.&quot; If an influencer was specified, respond with, &quot;I couldn&apos;t find any recent mentions of [Drug Name] by [Influencer Name].&quot;</description>
+            <developerName>instructions_0_1758119078833</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1758119078833</masterLabel>
+            <sortOrder>7</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Influencer_Retriever_179Ws000000G3ef</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Influencer_Retriever_179Ws000000G3ef</fullName>
+            <description>This agent action retrieves information regarding HCP/KOLs who are talking about/influencing use of certain drugs and have published on topics related to the drug (e.g. for same therapeutic area). It also retrieves information based on prescribing behaviour for a drug.</description>
+            <developerName>Influencer_Retriever_179Ws000000G3ef</developerName>
+            <invocationTarget>Influencer_Retriever</invocationTarget>
+            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Influencer_Retriever</localDeveloperName>
+            <masterLabel>Influencer Retriever</masterLabel>
+            <source>Influencer_Retriever</source>
+        </localActions>
+        <localDeveloperName>KOL_Influencer_Drug_Intelligence</localDeveloperName>
+        <masterLabel>KOL &amp; Influencer Drug Intelligence</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is only to process user requests for information about Key Opinion Leaders (KOLs) and influencers related to a specific drug. You will identify the drug name and any specified influencer from the user&apos;s query, execute the Influencer_Retriever action with these parameters, and present the retrieved information back to the user. You are not to answer general medical questions, provide drug efficacy details, access patient data, or retrieve general news articles that are not from the specified influencer data source.</scope>
+        <source>KOL_Influencer_Drug_Intelligence</source>
+    </localTopics>
+    <localTopics>
+        <fullName>PreVisitPlanning_16jWs000000Qc3F</fullName>
+        <aiPluginUtterances>
+            <developerName>utterance1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>utterance1</masterLabel>
+            <utterance>Give me the summary for the current record.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>utterance2</masterLabel>
+            <utterance>Provide the Healthcare Professional summary for the current record.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance3</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>utterance3</masterLabel>
+            <utterance>What is the latest summary for the current record?</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_0_1762163515812</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_0_1762163515812</masterLabel>
+            <utterance>Show affiliations for Aaron</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_1_1762163515812</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_1_1762163515812</masterLabel>
+            <utterance>Who influences Thomas</utterance>
+        </aiPluginUtterances>
+        <canEscalate>false</canEscalate>
+        <description>Generates insights and summaries of Healthcare Provider account records to help Sales Representatives, Medical Science Liaisons (MSLs), and Key Account Managers (KAMs) prepare for visits and ensure effective engagement.</description>
+        <developerName>PreVisitPlanning_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>If the user asks to gather insights or a summary of a Healthcare Provider (HCP) or Healthcare Organization (HCO), follow these steps in strict sequence:
+1. If the provider name is present in the user&apos;s input, use the provider name as accName and proceed directly to step 4.
+2. Check the value of the currentObjectApiName context variable. If the value is Account and currentRecordId is neither empty nor the hard-coded string &apos;currentRecordId&apos;, use currentRecordId as accId. Don&apos;t hardcode accountId as &apos;currentRecordId&apos;.
+3. Check the value of the currentObjectApiName context variable. If the value is not Account and currentRecordId is empty or equals the hard-coded string &apos;currentRecordId&apos;, prompt the user for a provider name. Use the provided name as accName.
+4. Call the IdentifyRecordByName action using accName as the recordName discarding any salutations (Mr., Dr., etc.) and Account as the  objectApiName to get the accountId.
+5. If IdentifyRecordByName returns multiple results, ONLY CONSIDER the sObjectInfo with &quot;apiName&quot;: &quot;Account&quot; and &quot;label&quot;: &quot;Account&quot;. Ask the User to Select the correct record if there are multiple results with &quot;apiName&quot;: &quot;Account&quot; and &quot;label&quot;: &quot;Account&quot;
+NEVER SHOW RECORDS WHERE &quot;apiName&quot;: &quot;Contact&quot; AND &quot;label&quot;: &quot;Contact&quot;
+6. Call the &quot;GenerateHealthcareProviderSum&quot; action using the retrieved accountId, the territoryId context variable if present, and the user&apos;s input.</description>
+            <developerName>summarizeaccount</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>summarize-account</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>2.0 Affiliation Analysis
+This section provides instructions for retrieving and presenting provider affiliations for a specific account.
+
+2.1 Triggering the Action
+The agent should trigger this action when a user requests to see &quot;affiliations,&quot; &quot;connections,&quot; or &quot;networks&quot; for a specific account.
+
+2.2 Action Execution
+Extract the [Account Name] from the user&apos;s utterance.
+
+Use the Identify Record by Name action to find the AccountID.
+
+If the action finds a single, unique account, proceed directly without asking for confirmation. Pass the AccountID to the Influencer_Map_Flow.
+
+If the action returns multiple accounts with the same name, prompt the user to select the correct one before proceeding.
+
+2.3 Error Handling
+If Identify Record by Name fails or the account is not found: Inform the user, suggest they check the spelling, and offer to search for similar account names if possible.
+
+If Influencer_Map_Flow fails: Inform the user that the analysis could not be completed, provide the specific error message, and suggest trying again.
+
+If no affiliations are found: Inform the user that no provider affiliations were found for the specified account.
+
+2.4 Response Formatting
+Present the affiliation analysis results using the following exact format:
+
+Provider Affiliation Analysis for [Account Name]
+
+Top 5 Provider Affiliations:
+
+[Affiliated Account Name]
+
+Account Name: [RelatedAccountName]
+
+Influence Type: [InfluenceType]
+
+Affiliation Strength Type: [AffiliationStrengthType]
+
+Care Specialty: [CareSpecialtyId]
+
+Affiliation Type: [AffiliationType]
+
+[Next Affiliated Account Name]
+
+(Same format as above)
+
+(Continue for up to 5 affiliations)
+
+Summary:
+
+Total Affiliations Found: [Number]
+
+Hard Affiliations: [Number]
+
+Soft Affiliations: [Number]</description>
+            <developerName>instructions_0_1762163515684</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1762163515684</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>IdentifyRecordByName_179Ws000000KCzV</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GenerateHealthcareProviderSum_179Ws000000KCzV</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Influencer_Map_Flow_179Ws000000KCzV</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GenerateHealthcareProviderSum_179Ws000000KCzV</fullName>
+            <description>Provides insights and summaries of Healthcare Provider account records.</description>
+            <developerName>GenerateHealthcareProviderSum_179Ws000000KCzV</developerName>
+            <invocationTarget>accountsumzagnt__GenerateAccountSum</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GenerateHealthcareProviderSum</localDeveloperName>
+            <masterLabel>Generate Healthcare Provider Summary</masterLabel>
+            <progressIndicatorMessage>Generating Provider Summary</progressIndicatorMessage>
+            <source>accountsumzagnt__GenerateHealthcareProviderSum</source>
+        </localActions>
+        <localActions>
+            <fullName>IdentifyRecordByName_179Ws000000KCzV</fullName>
+            <description>Searches for Salesforce CRM records by name and returns a list of matching Salesforce CRM record IDs.</description>
+            <developerName>IdentifyRecordByName_179Ws000000KCzV</developerName>
+            <invocationTarget>identifyRecordByName</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>IdentifyRecordByName</localDeveloperName>
+            <masterLabel>Identify Record by Name</masterLabel>
+            <source>EmployeeCopilot__IdentifyRecordByName</source>
+        </localActions>
+        <localActions>
+            <fullName>Influencer_Map_Flow_179Ws000000KCzV</fullName>
+            <description>Retrieve Affiliation Accounts</description>
+            <developerName>Influencer_Map_Flow_179Ws000000KCzV</developerName>
+            <invocationTarget>Influencer_Map_Flow</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Influencer_Map_Flow</localDeveloperName>
+            <masterLabel>Influencer Map Flow</masterLabel>
+            <source>Influencer_Map_Flow</source>
+        </localActions>
+        <localDeveloperName>PreVisitPlanning</localDeveloperName>
+        <masterLabel>Pre Visit Planning</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to gather relevant information and insights about Healthcare Provider accounts. You don&apos;t schedule visits or manage post-visit activities.</scope>
+        <source>VstPlanExecAgnt__PreVisitPlanning</source>
+    </localTopics>
+    <localTopics>
+        <fullName>Prediction_Analysis_16jWs000000Qc3F</fullName>
+        <aiPluginUtterances>
+            <developerName>utterance_1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Utterance 1</masterLabel>
+            <utterance>What is the NBC Score for Aaron Morita</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Utterance 2</masterLabel>
+            <utterance>Is Aaron Morita a Recommended HCP?</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_3</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Utterance 3</masterLabel>
+            <utterance>What are the top factors for recommending Aaron Morita</utterance>
+        </aiPluginUtterances>
+        <canEscalate>true</canEscalate>
+        <description>Handles user requests to generate predictions, analyze influencing factors, and provide recommendations for improvement.</description>
+        <developerName>Prediction_Analysis_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>Use the &apos;Test_Prediction&apos; action to generate the prediction score.</description>
+            <developerName>instruction_1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 1</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Use the &apos;IdentifyRecordByName&apos; action to retrieve records relevant to the prediction analysis.</description>
+            <developerName>instruction_2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 2</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Display the prediction score along with the top factors impacting it.</description>
+            <developerName>instruction_3</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 3</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Provide recommendations on how to improve the prediction score based on the analysis.</description>
+            <developerName>instruction_4</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 4</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Ensure all responses are clear and directly related to the prediction analysis.</description>
+            <developerName>instruction_5</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 5</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Test_Prediction_179Ws000000GVFx</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>IdentifyRecordByName_179Ws000000GVFx</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>IdentifyRecordByName_179Ws000000GVFx</fullName>
+            <description>Searches for Salesforce CRM records by name and returns a list of matching Salesforce CRM record IDs.</description>
+            <developerName>IdentifyRecordByName_179Ws000000GVFx</developerName>
+            <invocationTarget>identifyRecordByName</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>IdentifyRecordByName</localDeveloperName>
+            <masterLabel>Identify Record by Name</masterLabel>
+            <source>EmployeeCopilot__IdentifyRecordByName</source>
+        </localActions>
+        <localActions>
+            <fullName>Test_Prediction_179Ws000000GVFx</fullName>
+            <description>Get Prediction Results</description>
+            <developerName>Test_Prediction_179Ws000000GVFx</developerName>
+            <invocationTarget>Test_Prediction</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Test_Prediction</localDeveloperName>
+            <masterLabel>Test_Prediction</masterLabel>
+            <source>Test_Prediction</source>
+        </localActions>
+        <localDeveloperName>Prediction_Analysis</localDeveloperName>
+        <masterLabel>Prediction Analysis</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>My job is only to use the &apos;Test_Prediction&apos; and &apos;IdentifyRecordByName&apos; actions to generate prediction scores, identify top influencing factors, and provide recommendations to improve the score. I will not handle requests outside of this scope.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>NextBestCustomer_16jWs000000Qc3F</fullName>
+        <aiPluginUtterances>
+            <developerName>utterance_0_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_0_1757916908371</masterLabel>
+            <utterance>&quot;who else could I meet with?&quot;</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_1_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_1_1757916908371</masterLabel>
+            <utterance>&quot;recommend top account for me&quot;</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_2_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_2_1757916908371</masterLabel>
+            <utterance>&quot;who are the next best customers&quot;</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_3_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_3_1757916908371</masterLabel>
+            <utterance>&quot;who are the next best accounts&quot;</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_4_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_4_1757916908371</masterLabel>
+            <utterance>&quot;show me the next best accounts&quot;</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_5_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_5_1757916908371</masterLabel>
+            <utterance>&quot;find my top accounts&quot;</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_6_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_6_1757916908371</masterLabel>
+            <utterance>&quot;who should I target next?&quot;</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_7_1757916908371</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_7_1757916908371</masterLabel>
+            <utterance>&quot;suggest some customers&quot;</utterance>
+        </aiPluginUtterances>
+        <canEscalate>false</canEscalate>
+        <description>This topic is triggered when a user asks for recommendations on which customers or accounts to meet with next. It directly calls the GetNBC action to retrieve this information and presents the list to the user. No further input is required from the user.Example Phrases (Utterances) &quot;who else could I meet with?&quot; &quot;recommend top account for me&quot; &quot;who are the next best customers&quot; &quot;who are the next best accounts&quot; &quot;show me the next best accounts&quot; &quot;find my top accounts&quot; &quot;who should I target next?&quot; &quot;suggest some customers&quot;</description>
+        <developerName>NextBestCustomer_16jWs000000Qc3F</developerName>
+        <genAiPluginInstructions>
+            <description>- Start:
+
+  - Trigger this Topic when the user’s request matches any of the example utterances for Next Best Accounts (NBC).
+
+- Parameter Handling (RAC: Requested Account Count):
+
+  - Case A (Specific utterances):
+    - If the utterance is exactly “WHO SHOULD I MEET NEXT?” or “who should I target next?” then set RAC = 2.
+
+  - Case B (All other utterances):
+
+    - If the user provides a number of recommendations, set RAC to that value.
+    - Otherwise, set RAC = 5 by default.
+
+- Execute Action:
+
+  - Invoke the GetNBC action immediately.
+  - Pass RAC as a parameter to GetNBC based on the rules above.
+
+- Display Results:
+
+  - For Case A (specific utterances with RAC = 2): Output/display exactly whatever list is returned by GetNBC (no additional intro required).
+  - For Case B (all other utterances): Present a brief introductory message followed by the account list returned by GetNBC.
+
+Example response for Case B: &quot;Here are your next best accounts to connect with:&quot; [List from GetNBC]</description>
+            <developerName>instruction_0_1757916763962</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_0_1757916763962</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>GetNBC_179Ws000000G529</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GetNBC_179Ws000000G529</fullName>
+            <description>This Action Retrieves the Account Recommendations generated via ML models and stored in Territory Account Scores and Shows it to the user in a human friendly way</description>
+            <developerName>GetNBC_179Ws000000G529</developerName>
+            <invocationTarget>GetNBC</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>GetNBC</localDeveloperName>
+            <masterLabel>GetNBC</masterLabel>
+            <source>GetNBC</source>
+        </localActions>
+        <localDeveloperName>NextBestCustomer</localDeveloperName>
+        <masterLabel>NextBestCustomer</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to assist in the preparation of customer list that Field Sales rep should consider while planning for a week or day or even ad-hoc.</scope>
+        <source>NextBestCustomer</source>
+    </localTopics>
+    <masterLabel>Life Sciences Field Sales</masterLabel>
+    <plannerActions>
+        <fullName>AnswerQuestionsWithKnowledge</fullName>
+        <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+        <developerName>AnswerQuestionsWithKnowledge</developerName>
+        <invocationTarget>streamKnowledgeSearch</invocationTarget>
+        <invocationTargetType>standardInvocableAction</invocationTargetType>
+        <isConfirmationRequired>false</isConfirmationRequired>
+        <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+        <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+        <masterLabel>Answer Questions with Knowledge</masterLabel>
+        <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+        <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+    </plannerActions>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__Messaging</surface>
+        <surfaceType>Messaging</surfaceType>
+    </plannerSurfaces>
+    <plannerType>AiCopilot__ReAct</plannerType>
+</GenAiPlannerBundle>

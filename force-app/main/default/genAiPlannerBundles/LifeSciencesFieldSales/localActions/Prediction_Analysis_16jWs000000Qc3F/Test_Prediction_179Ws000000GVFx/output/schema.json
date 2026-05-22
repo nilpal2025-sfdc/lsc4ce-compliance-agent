@@ -1,0 +1,39 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "FinalOutput" : {
+      "title" : "FinalOutput",
+      "description" : "Final output",
+      "maxLength" : 100000,
+      "lightning:type" : "lightning__richTextType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "PredictionScore" : {
+      "title" : "PredictionScore",
+      "description" : "PredictionScore",
+      "multipleOf" : 1.0E-34,
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "Recommendations" : {
+      "title" : "Recommendations",
+      "description" : "Recommendations",
+      "lightning:type" : "lightning__recordInfoType",
+      "lightning:sObjectInfo" : {
+        "apiName" : "HCP_360__c"
+      },
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

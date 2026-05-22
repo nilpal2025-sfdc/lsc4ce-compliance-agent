@@ -11,8 +11,10 @@
         <developerName>instruction_0_1761413528509</developerName>
         <language xsi:nil="true"/>
         <masterLabel>instruction_0_1761413528509</masterLabel>
+        <sortOrder>0</sortOrder>
     </genAiPluginInstructions>
     <language>en_US</language>
+    <localDeveloperName>PostCallVisitNotes</localDeveloperName>
     <masterLabel>PostCallVisitNotes</masterLabel>
     <pluginType>Topic</pluginType>
     <scope>Your job is to assist the pharma representative by parsing the information they dictate about a provider visit and accurately logging it into the Note record. You also create medical inquiries as needed and schedule follow up Provider Visits.</scope>

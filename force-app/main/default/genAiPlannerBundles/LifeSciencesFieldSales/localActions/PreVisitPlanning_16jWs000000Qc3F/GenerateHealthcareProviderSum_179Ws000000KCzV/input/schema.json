@@ -1,0 +1,32 @@
+{
+  "required" : [ "accountId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "accountId" : {
+      "title" : "{!$Label.ProviderSummaryAgent.accountIdLabel}",
+      "description" : "{!$Label.ProviderSummaryAgent.accountIdDescription}",
+      "lightning:type" : "lightning__recordIdType",
+      "einstein:description" : "The ID of the Healthcare Provider account record for which insights and summary are being retrieved.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "territoryId" : {
+      "title" : "{!$Label.ProviderSummaryAgent.territoryIdLabel}",
+      "description" : "{!$Label.ProviderSummaryAgent.territoryIdDescription}",
+      "lightning:type" : "lightning__textType",
+      "einstein:description" : "The ID of the territory to which Sales Representatives, Medical Science Liaisons (MSLs), or the Key Account Managers (KAMs) are assigned.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "getLatestInformation" : {
+      "title" : "{!$Label.ProviderSummaryAgent.useLatestInfoLabel}",
+      "description" : "{!$Label.ProviderSummaryAgent.useLatestInfoDescription}",
+      "lightning:type" : "lightning__booleanType",
+      "einstein:description" : "A flag that determines whether latest information of the record is to be retrieved. Set to true if the user's input includes keywords such as \"latest\" or \"new\" explicitly; otherwise set to false.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

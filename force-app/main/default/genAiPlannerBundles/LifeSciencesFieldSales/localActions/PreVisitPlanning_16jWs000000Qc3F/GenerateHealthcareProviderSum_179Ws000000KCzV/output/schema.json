@@ -1,0 +1,34 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "healthcareProviderSummary" : {
+      "title" : "{!$Label.ProviderSummaryAgent.prvdSumOutputLabel}",
+      "description" : "{!$Label.ProviderSummaryAgent.prvdSumOutputDescription}",
+      "lightning:type" : "@apexClassType/prvd_sum__LsPrvdSumOutput",
+      "einstein:description" : "An Apex object containing the provider summary and the last updated date and time. Additionally, it includes an error message if any errors occur.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "componentName" : {
+      "title" : "{!$Label.ProviderSummaryAgent.componentNameLabel}",
+      "description" : "{!$Label.ProviderSummaryAgent.componentNameDescription}",
+      "lightning:type" : "lightning__textType",
+      "einstein:description" : "The LWC Component Name which needs to be rendered in output.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "componentNamespace" : {
+      "title" : "{!$Label.ProviderSummaryAgent.componentNamespaceLabel}",
+      "description" : "{!$Label.ProviderSummaryAgent.componentNamespaceDescription}",
+      "lightning:type" : "lightning__textType",
+      "einstein:description" : "The LWC Component Namespace which needs to be rendered in output.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

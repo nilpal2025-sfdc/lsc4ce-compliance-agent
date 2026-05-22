@@ -1,0 +1,35 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "ErrorMessage" : {
+      "title" : "ErrorMessage",
+      "description" : "Error message if any",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "NBCResults" : {
+      "title" : "NBCResults",
+      "description" : "Formatted NBC results",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "NextBestCustomerFormattedOutput" : {
+      "title" : "NextBestCustomerFormattedOutput",
+      "description" : "Formatted Output for Next Best Customer results",
+      "maxLength" : 100000,
+      "lightning:type" : "lightning__richTextType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}
