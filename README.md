@@ -200,7 +200,12 @@ The following components **cannot be deployed via metadata API** to a new org. T
 ./scripts/deploy.sh my-org --skip-agentforce
 ```
 
-The `.forceignore` file excludes these components from `sf project deploy start --source-dir force-app` operations.
+The `.forceignore` file excludes these components from `sf project deploy start --source-dir force-app` operations. They remain in the repo as reference. After completing Steps 1–3 of [CONFIGURATION.md](docs/CONFIGURATION.md), deploy the excluded flows manually:
+
+```bash
+sf project deploy start --source-dir force-app/main/default/flows/Visit_Logging_Compliance_Check.flow-meta.xml --target-org my-org
+sf project deploy start --source-dir force-app/main/default/flows/ProviderVisit_Compliance_Background_Validation.flow-meta.xml --target-org my-org
+```
 
 ### What Deploys Successfully (No Manual Setup)
 

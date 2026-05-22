@@ -30,7 +30,16 @@ The LLM-based validation methods use RAG (Retrieval-Augmented Generation) ground
 5. Set grounding source: Your Data Library from Step 1
 6. Set the prompt instruction to evaluate text against compliance SOPs and return structured JSON with: Status, Risk Level, Assessment, Detected Violation, SOP Reference, Reproduction of Concern, Recommended Action, Corrective Verbiage
 
-## 3. Update Flow Retriever ID (Required for Methods 1, 3, 5)
+## 3. Deploy and Configure Compliance Check Flow (Required for Methods 1, 3, 5)
+
+> **Note:** These flows are excluded from the default deployment via `.forceignore` because they depend on the Data Library and Prompt Template configured in Steps 1–2. Deploy them now:
+>
+> ```bash
+> sf project deploy start --source-dir force-app/main/default/genAiPromptTemplates/Compliance_Check.genAiPromptTemplate-meta.xml --target-org my-org
+> sf project deploy start --source-dir force-app/main/default/flows/Visit_Logging_Compliance_Check.flow-meta.xml --target-org my-org
+> sf project deploy start --source-dir force-app/main/default/flows/ProviderVisit_Compliance_Background_Validation.flow-meta.xml --target-org my-org
+> ```
+
 
 1. Navigate to **Setup > Flows**
 2. Open `Visit_Logging_Compliance_Check`
