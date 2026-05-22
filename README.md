@@ -38,9 +38,9 @@ flowchart LR
 ## Prerequisites
 
 - Salesforce org with **Life Sciences Cloud** package installed (provides `ProviderVisit` object)
-- **Einstein Generative AI** enabled (for Methods 1, 3, 5)
-- **Territory2** model configured and active (for Method 3 AppAlert routing)
-- **Salesforce CLI** (`sf`) v2.x installed — [Install guide](https://developer.salesforce.com/tools/salesforcecli)
+- **Einstein Generative AI** enabled (for Methods 1, 3, 5) — [Setup Guide](https://help.salesforce.com/s/articleView?id=sf.generative_ai_enable.htm)
+- **Territory Management** configured and active (for Method 3 AppAlert routing) — [Setup Guide](https://help.salesforce.com/s/articleView?id=sf.tm2_enable.htm)
+- **Salesforce CLI** (`sf`) v2.x installed — [Install Guide](https://developer.salesforce.com/tools/salesforcecli)
 - Authenticated to your target org: `sf org login web --alias my-org`
 
 ---
@@ -57,14 +57,16 @@ cd lsc4ce-compliance-agent
 ### 2. Deploy
 
 ```bash
-# Full deployment (includes Agentforce)
-./scripts/deploy.sh my-org
-
-# Without Agentforce (if no Einstein Agent license)
+# Recommended for most users
 ./scripts/deploy.sh my-org --skip-agentforce
+
+# Or if you have Agentforce licensed and want to attempt full deploy
+./scripts/deploy.sh my-org
 ```
 
-The script deploys in dependency order: Objects → Classes → Triggers → Flows → Permission Sets → LWCs → Agentforce.
+The script deploys in dependency order: Objects → Classes → Triggers → Flows → Prompt Templates → Permission Sets → LWCs → Agentforce.
+
+> **What works immediately after deploy:** Method 2 (keyword/pattern trigger) is active with no additional configuration. Test it by saving a ProviderVisit record with "off-label" in the `NextProviderVisitObjective` field — the save will be blocked.
 
 ### 3. Load Sample Rules
 
@@ -75,15 +77,16 @@ sf apex run --file data/create-agentforce-marker-rule.apex --target-org my-org
 
 ### 4. Post-Deployment Configuration
 
-Manual steps required for full functionality — see **[docs/CONFIGURATION.md](docs/CONFIGURATION.md)**:
+Methods 1, 3, and 5 (the LLM-based methods) require additional manual setup. See **[docs/CONFIGURATION.md](docs/CONFIGURATION.md)** for step-by-step instructions:
 
 1. Create Data Library and upload compliance SOPs
 2. Create `Compliance_Check` Prompt Template
-3. Update Flow Retriever ID
+3. Deploy and configure the compliance check flows
 4. Activate Background Validation Flow
-5. Configure DbSchema for AppAlerts (mobile)
-6. Configure Custom Script in Visit Engagement
-7. Add LWC to Visit record page
+5. Configure Agentforce Agent
+6. Configure DbSchema for AppAlerts (mobile)
+7. Configure Custom Script in Visit Engagement
+8. Add LWC to Visit record page
 
 ### 5. Verify
 
@@ -99,12 +102,12 @@ Manual steps required for full functionality — see **[docs/CONFIGURATION.md](d
 |------|-----------|
 | Custom Objects | `Compliance_Rule__c`, `Compliance_Alert__c`, `Compliance_Audit_Log__c` |
 | Platform Event | `Compliance_Alert_Event__e` |
-| Apex Classes | 8 classes + 6 test classes (80%+ coverage) |
+| Apex Classes | 9 classes + 7 test classes |
 | Triggers | `ProviderVisitComplianceTrigger`, `AccountComplianceTrigger` |
-| Flows | `Visit_Note_Processor_Simple`, `AccountAProductNames` (+ 2 LLM-dependent flows, see Known Limitations) |
+| Flows | `Visit_Note_Processor_Simple`, `AccountAProductNames` |
+| Prompt Template | `Visit_Note_Mapper` |
 | LWCs | `complianceValidationScript`, `lscMobileInline_ComplianceValidator` |
 | Permission Set | `Compliance_Framework_Admin` |
-| Agentforce | `Compliant_Visit_Logging` bot + planner bundle, `PostCallVisitNotes` plugin |
 
 ---
 
@@ -113,7 +116,7 @@ Manual steps required for full functionality — see **[docs/CONFIGURATION.md](d
 ```bash
 # Run all compliance tests
 sf apex run test \
-  --tests ComplianceRuleEngineTest,ComplianceFlowServiceTest,ComplianceValidationServiceTest,ComplianceValidationControllerTest,ComplianceScriptServiceTest,ComplianceReviewParserTest \
+  --tests ComplianceRuleEngineTest,ComplianceFlowServiceTest,ComplianceValidationServiceTest,ComplianceValidationControllerTest,ComplianceScriptServiceTest,ComplianceReviewParserTest,VisitNoteProcessorTest \
   --target-org my-org \
   --code-coverage \
   --result-format human
@@ -178,21 +181,20 @@ WHERE Status__c = 'Open' AND Severity__c = 'Critical'
 
 ---
 
-## Important Notes
 ## Known Deployment Limitations
 
 ### Agentforce Components (Manual Setup Required)
 
-The following components **cannot be deployed via metadata API** to a new org. They are included in the repo as reference but must be configured manually through Agent Builder:
+The following components **cannot be deployed via metadata API** to a new org. They are included in the repo as reference but must be configured manually through [Agent Builder](https://help.salesforce.com/s/articleView?id=sf.copilot_create_agent.htm):
 
 | Component | Type | Why It Fails | Manual Setup |
 |-----------|------|--------------|--------------|
 | `PostCallVisitNotes` | GenAiPlugin | Platform internal error on cross-org deploy | Create Topic in Agent Builder |
 | `Compliant_Visit_Logging` | GenAiPlannerBundle | Depends on GenAiPlugin | Configure in Agent Builder |
 | `Compliant_Visit_Logging` | Bot | Depends on PlannerBundle | Created automatically with Agent |
-| `Compliance_Check` | GenAiPromptTemplate | References org-specific Data Library (Einstein Search) | Create after uploading SOP docs |
-| `Visit_Logging_Compliance_Check` | Flow | References `Compliance_Check` prompt template | Deploys after template is configured |
-| `ProviderVisit_Compliance_Background_Validation` | Flow | Calls `Visit_Logging_Compliance_Check` as subflow | Activate after compliance check flow is deployed |
+| `Compliance_Check` | GenAiPromptTemplate | References org-specific Data Library | Create after uploading SOP docs (see Step 2 of CONFIGURATION.md) |
+| `Visit_Logging_Compliance_Check` | Flow | References `Compliance_Check` prompt template | Deploy after template is configured (see Step 3 of CONFIGURATION.md) |
+| `ProviderVisit_Compliance_Background_Validation` | Flow | Calls `Visit_Logging_Compliance_Check` as subflow | Deploy after compliance check flow (see Step 3 of CONFIGURATION.md) |
 
 **Use `--skip-agentforce` flag** for clean deployments:
 
@@ -200,7 +202,9 @@ The following components **cannot be deployed via metadata API** to a new org. T
 ./scripts/deploy.sh my-org --skip-agentforce
 ```
 
-The `.forceignore` file excludes these components from `sf project deploy start --source-dir force-app` operations. They remain in the repo as reference. After completing Steps 1–3 of [CONFIGURATION.md](docs/CONFIGURATION.md), deploy the excluded flows manually:
+The `.forceignore` file automatically excludes these components from `sf project deploy start --source-dir force-app` operations. They remain in the repo as reference for manual configuration.
+
+After completing Steps 1–3 of [CONFIGURATION.md](docs/CONFIGURATION.md), deploy the excluded flows manually:
 
 ```bash
 sf project deploy start --source-dir force-app/main/default/flows/Visit_Logging_Compliance_Check.flow-meta.xml --target-org my-org
@@ -211,7 +215,7 @@ sf project deploy start --source-dir force-app/main/default/flows/ProviderVisit_
 
 All core compliance framework components deploy without issues:
 - Custom objects + fields (`Compliance_Rule__c`, `Compliance_Alert__c`, `Compliance_Audit_Log__c`)
-- Apex classes (8) + test classes (7) — including `VisitNoteProcessor`
+- Apex classes (9) + test classes (7) — including `VisitNoteProcessor`
 - Triggers (`ProviderVisitComplianceTrigger`, `AccountComplianceTrigger`)
 - Flows (`Visit_Note_Processor_Simple`, `AccountAProductNames`)
 - Prompt template (`Visit_Note_Mapper`)
@@ -220,10 +224,10 @@ All core compliance framework components deploy without issues:
 
 ---
 
+## Important Notes
 
 - **This is a demonstration/prototype.** See disclaimers in the Implementation Guide before using in regulated environments.
 - The `AccountComplianceTrigger` validates `Account.Description` as a demo/proxy — useful for testing without LSC package.
-- The Background Validation Flow deploys in **Draft** status and must be manually activated.
 - The RAG Retriever ID in the compliance flow is org-specific and must be replaced after Data Library setup.
 - `ENABLE_FLOW_VALIDATION` in `ComplianceRuleEngine` is set to `false` — LLM is disabled in the synchronous trigger path to prevent mobile sync timeouts.
 
