@@ -23,6 +23,7 @@ force-app/main/default/bots/
 # Compliance_Check requires a Data Library with uploaded SOP documents.
 force-app/main/default/genAiPromptTemplates/Compliance_Check.genAiPromptTemplate-meta.xml
 
-# Flow that depends on Compliance_Check prompt template (excluded above).
+# Flows that depend on Compliance_Check prompt template (excluded above).
 # Deploy after Compliance_Check template is configured in the target org.
 force-app/main/default/flows/Visit_Logging_Compliance_Check.flow-meta.xml
+force-app/main/default/flows/ProviderVisit_Compliance_Background_Validation.flow-meta.xml
