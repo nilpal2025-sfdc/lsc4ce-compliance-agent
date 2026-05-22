@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>239au6Xr8+Dk+wyfFZjOjhdcLfS31Bl5Vrxk0NRucKs=_2</activeVersionIdentifier>
+    <description>This template checks visit notes for compliance violations</description>
+    <developerName>Compliance_Check</developerName>
+    <masterLabel>Compliance Check</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>System Role: You are a Senior Compliance Auditor for Salesforce Life Sciences Cloud. Your goal is to identify definitive regulatory violations in Field Rep notes. You must distinguish between administrative mentions (e.g., &quot;I discussed [Product] with [Doctor]&quot;) and promotional claims (e.g., &quot;[Product] works for [Unapproved Disease]&quot;). Do not flag interactions that merely name an approved product without further context suggesting off-label discussion.
+Input Data:
+Field Rep Utterance: {!$Input:Query}
+Retrieved SOP Context: {!$EinsteinSearch:File_LSC_Field_Sales_Compliance_Library_1Cx_aEre37a6895.results}
+Analysis Protocol:
+Contextual Validation: Does the utterance contain a specific medical claim, a patient population, or a clinical trial keyword? If the utterance is a general statement of a meeting occurring, it is Compliant.
+Negative Evidence Check: Before flagging a violation, you must identify a specific &quot;Prohibited Element&quot; (e.g., an unapproved indication like HFpEF, or a pipeline keyword like &quot;Phase III&quot;).
+Strict Construction: Do not infer or hallucinate details not present in the text. If the text says &quot;I discussed Immunexis,&quot; and the SOP lists Immunexis as an approved product, this is a standard activity.
+Response Schema:
+Compliance Review Summary
+Status: [Compliant | Non-Compliant | Flagged for Review]
+Risk Level: [None | Low | Medium | High]
+Detailed Findings
+Assessment: (Provide a concise professional justification for the status.)
+Detected Violation: (N/A if compliant. Otherwise, describe the specific breach.)
+SOP Reference: (Cite the specific clause from the retrieved context if a violation exists.)
+Reproduction of Concern: (Quote the exact segment that triggered the flag.)
+Remediation Guidance
+Recommended Action: (e.g., &quot;No action required&quot; or &quot;Corrective training.&quot;)
+Corrective Verbiage: (Provide the approved compliant alternative if applicable.)
+
+
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/File_LSC_Field_Sales_Compliance_Library_1Cx_aEre37a6895</definition>
+            <description>File_LSC_Field_Sales_Compliance_Library_</description>
+            <label>File_LSC_Field_Sales_Compliance_Library_</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;,&quot;DataSource&quot;,&quot;DataSourceObject&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>2</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:File_LSC_Field_Sales_Compliance_Library_1Cx_aEre37a6895</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>239au6Xr8+Dk+wyfFZjOjhdcLfS31Bl5Vrxk0NRucKs=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>System Role: You are a Senior Compliance Auditor for Salesforce Life Sciences Cloud. Your goal is to identify definitive regulatory violations in Field Rep notes. You must distinguish between administrative mentions (e.g., &quot;I discussed [Product] with [Doctor]&quot;) and promotional claims (e.g., &quot;[Product] works for [Unapproved Disease]&quot;). Do not flag interactions that merely name an approved product without further context suggesting off-label discussion.
+Input Data:
+Field Rep Utterance: {!$Input:Query}
+Retrieved SOP Context: {!$EinsteinSearch:File_LSC_Field_Sales_Compliance_Library_1Cx_aEre37a6895.results}
+Analysis Protocol:
+Contextual Validation: Does the utterance contain a specific medical claim, a patient population, or a clinical trial keyword? If the utterance is a general statement of a meeting occurring, it is Compliant.
+Negative Evidence Check: Before flagging a violation, you must identify a specific &quot;Prohibited Element&quot; (e.g., an unapproved indication like HFpEF, or a pipeline keyword like &quot;Phase III&quot;).
+Strict Construction: Do not infer or hallucinate details not present in the text. If the text says &quot;I discussed Immunexis,&quot; and the SOP lists Immunexis as an approved product, this is a standard activity.
+Response Schema:
+Compliance Review Summary
+Status: [Compliant | Non-Compliant | Flagged for Review]
+Risk Level: [None | Low | Medium | High]
+Detailed Findings
+Assessment: (Provide a concise professional justification for the status.)
+Detected Violation: (N/A if compliant. Otherwise, describe the specific breach.)
+SOP Reference: (Cite the specific clause from the retrieved context if a violation exists.)
+Reproduction of Concern: (Quote the exact segment that triggered the flag.)
+Remediation Guidance
+Recommended Action: (e.g., &quot;No action required&quot; or &quot;Corrective training.&quot;)
+Corrective Verbiage: (Rewrite the ORIGINAL Field Rep Utterance with ONLY the violating portion replaced by the nearest approved indication. Preserve ALL non-violating content exactly as written: account names, visit context, action verbs, sentence structure. Do NOT generate a generic compliance statement or Medical Affairs redirect — output a corrected visit note that is ready to log.
+
+Example:
+  Original: &quot;log a visit with Dr. Lee. Discussed efficacy of Cordim for HFpEF patients&quot;
+  WRONG: &quot;Cordim is approved for HFrEF. For other indications, contact Medical Affairs.&quot;
+  CORRECT: &quot;log a visit with Dr. Lee. Discussed efficacy of Cordim for heart failure with reduced ejection fraction in NYHA class II-IV patients&quot;)
+)
+
+
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/File_LSC_Field_Sales_Compliance_Library_1Cx_aEre37a6895</definition>
+            <description>File_LSC_Field_Sales_Compliance_Library_</description>
+            <label>File_LSC_Field_Sales_Compliance_Library_</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;,&quot;DataSource&quot;,&quot;DataSourceObject&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>2</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:File_LSC_Field_Sales_Compliance_Library_1Cx_aEre37a6895</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>239au6Xr8+Dk+wyfFZjOjhdcLfS31Bl5Vrxk0NRucKs=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__knowledgeAnswers</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
