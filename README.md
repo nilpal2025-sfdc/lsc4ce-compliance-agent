@@ -101,7 +101,7 @@ Manual steps required for full functionality — see **[docs/CONFIGURATION.md](d
 | Platform Event | `Compliance_Alert_Event__e` |
 | Apex Classes | 8 classes + 6 test classes (80%+ coverage) |
 | Triggers | `ProviderVisitComplianceTrigger`, `AccountComplianceTrigger` |
-| Flows | `Visit_Logging_Compliance_Check`, `ProviderVisit_Compliance_Background_Validation`, `Visit_Note_Processor_Simple` |
+| Flows | `Visit_Note_Processor_Simple`, `AccountAProductNames` (+ 2 LLM-dependent flows, see Known Limitations) |
 | LWCs | `complianceValidationScript`, `lscMobileInline_ComplianceValidator` |
 | Permission Set | `Compliance_Framework_Admin` |
 | Agentforce | `Compliant_Visit_Logging` bot + planner bundle, `PostCallVisitNotes` plugin |
@@ -192,6 +192,7 @@ The following components **cannot be deployed via metadata API** to a new org. T
 | `Compliant_Visit_Logging` | Bot | Depends on PlannerBundle | Created automatically with Agent |
 | `Compliance_Check` | GenAiPromptTemplate | References org-specific Data Library (Einstein Search) | Create after uploading SOP docs |
 | `Visit_Logging_Compliance_Check` | Flow | References `Compliance_Check` prompt template | Deploys after template is configured |
+| `ProviderVisit_Compliance_Background_Validation` | Flow | Calls `Visit_Logging_Compliance_Check` as subflow | Activate after compliance check flow is deployed |
 
 **Use `--skip-agentforce` flag** for clean deployments:
 
@@ -207,7 +208,7 @@ All core compliance framework components deploy without issues:
 - Custom objects + fields (`Compliance_Rule__c`, `Compliance_Alert__c`, `Compliance_Audit_Log__c`)
 - Apex classes (8) + test classes (7) — including `VisitNoteProcessor`
 - Triggers (`ProviderVisitComplianceTrigger`, `AccountComplianceTrigger`)
-- Flows (`Visit_Note_Processor_Simple`, `AccountAProductNames`, `ProviderVisit_Compliance_Background_Validation`)
+- Flows (`Visit_Note_Processor_Simple`, `AccountAProductNames`)
 - Prompt template (`Visit_Note_Mapper`)
 - LWC components
 - Permission set
