@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Field_Name__c</fullName>
+    <fullName>Execution_Time_Ms__c</fullName>
     <externalId>false</externalId>
-    <label>Field Name</label>
-    <length>255</length>
+    <label>Execution Time (ms)</label>
+    <precision>6</precision>
     <required>false</required>
+    <scale>0</scale>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
+    <type>Number</type>
     <unique>false</unique>
 </CustomField>
