@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LSC4CE — Visit Engagement Prototypes</title>
+<style>
+  :root { --blue:#2E6BE6; --ink:#1C1C1E; --muted:#6E6E73; --card:#fff; --bg:#F4F5F7; --border:#E2E2E6; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif; }
+  .wrap { max-width:920px; margin:0 auto; padding:56px 24px 80px; }
+  h1 { font-size:32px; margin:0 0 6px; }
+  .sub { color:var(--muted); font-size:17px; margin:0 0 36px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:720px){ .grid { grid-template-columns:1fr; } }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:26px 26px 22px;
+    text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,.05); transition:.15s; }
+  .card:hover { box-shadow:0 8px 24px rgba(0,0,0,.10); transform:translateY(-2px); border-color:#cfd3da; }
+  .tag { align-self:flex-start; font-size:13px; font-weight:700; letter-spacing:.4px; text-transform:uppercase;
+    color:var(--blue); background:#E9F0FE; padding:4px 10px; border-radius:8px; }
+  .card h2 { font-size:21px; margin:6px 0 2px; }
+  .card p { font-size:15px; color:var(--muted); line-height:1.5; margin:0; }
+  .card .go { margin-top:8px; color:var(--blue); font-weight:600; font-size:15px; }
+  footer { margin-top:44px; color:var(--muted); font-size:14px; }
+  footer a { color:var(--blue); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Visit Engagement — Interactive Prototypes</h1>
+    <p class="sub">LSC4CE Customer Engagement · open-text compliance check. High-fidelity HTML, iPad landscape. Best viewed on a wide screen.</p>
+    <div class="grid">
+      <a class="card" href="visit-engagement-compliance-clickthrough.html">
+        <span class="tag">Clickthrough</span>
+        <h2>Open-Text Compliance Check</h2>
+        <p>9-state clickthrough: checking → verified → critical → issue popover → 3-issue list → warning modal → save blocked → offline (locked & limited). Live hotspots plus a state navigator.</p>
+        <span class="go">Open prototype →</span>
+      </a>
+      <a class="card" href="visit-engagement.html">
+        <span class="tag">Base screen</span>
+        <h2>Visit Engagement Screen</h2>
+        <p>Ground-truth reproduction of the Visit Engagement editor: Visit Information, Compliance Statement, Next Visit Objectives with the open-text field. Static reference.</p>
+        <span class="go">Open prototype →</span>
+      </a>
+    </div>
+    <footer>
+      Part of <a href="../../">lsc4ce-compliance-agent</a> — 5-Method Compliance Validation Framework.
+    </footer>
+  </div>
+</body>
+</html>
